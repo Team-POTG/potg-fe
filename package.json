@@ -25,17 +25,18 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "recoil": "^0.7.7",
     "tailwindcss": "^3.1.7",
     "typescript": "^4.9.5",
     "use-fit-text": "^2.4.0",
-    "web-vitals": "^2.1.4",
-    "zustand": "^4.3.7"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "generate": "openapi-generator generate -i ./generator/Summoner.yaml -g typescript-axios -o ./src/models/Summoner -c ./openapi.json --skip-validate-spec",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
