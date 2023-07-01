@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Tier from "../../../../images/emblems_mini/Challenger.png";
-import { motion } from "framer-motion";
 
 export function Summary() {
   const [summaryHover, setSummaryHover] = useState("");
@@ -28,13 +26,7 @@ export function Summary() {
 }
 
 export function SummaryTemplate() {
-  return (
-    <div className="flex flex-col gap-1 sm:pb-2 md:px-4 md:pb-6 pb-2">
-      {/* <Summary />
-      <Summary />
-      <Summary />
-      <Summary />
-      <Summary /> */}
-    </div>
-  );
+  const [summaryList, setSummaryList] = useState([]);
+
+  return <div className="flex flex-col gap-1 sm:pb-2 md:px-4 md:pb-6 pb-2" />;
 }
