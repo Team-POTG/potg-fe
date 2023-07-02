@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import Input from "./Input";
 import SearchButton from "./SearchButton";
 import { useRecoilState } from "recoil";
-import { searchInputState } from "../../recoil/SearchInput";
+import { searchInputState } from "../../../recoil/SearchInput";
 
 function Search() {
   const [inputFocus, setInputFocus] = useState(false);

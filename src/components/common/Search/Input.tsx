@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { searchInputState } from "../../recoil/SearchInput";
+import { searchInputState } from "../../../recoil/SearchInput";
 import { useNavigate } from "react-router-dom";
 
 function Input() {
