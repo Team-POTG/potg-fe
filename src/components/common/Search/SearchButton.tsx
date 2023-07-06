@@ -1,5 +1,5 @@
 import React from "react";
-import Search_Button from "../../images/search_button.png";
+import Search_Button from "../../../images/search_button.png";
 
 function SearchButton() {
   return (
