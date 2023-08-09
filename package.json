@@ -74,8 +74,10 @@
     "@storybook/react-webpack5": "^7.0.18",
     "@storybook/testing-library": "^0.0.14-next.2",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "chart.js": "^4.3.0",
     "eslint-plugin-storybook": "^0.6.12",
     "prop-types": "^15.8.1",
+    "react-chartjs-2": "^5.2.0",
     "storybook": "^7.0.18",
     "webpack": "^5.84.1"
   }

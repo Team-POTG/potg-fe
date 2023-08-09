@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import useSummonerHistory from "../../hooks/useSummonerHistory";
+import Profile from "../../components/summoners/Profile/Profile";
 
 function Summoners() {
   // const [summonerCookie, setSummonerCookie] = useCookies(["summonerHistory"]);
@@ -18,7 +19,11 @@ function Summoners() {
     });
   }, [setSummonerHistory]);
 
-  return <div>{routerParam.summonerName}</div>;
+  return (
+    <div className="">
+      <Profile />
+    </div>
+  );
 }
 
 export default Summoners;

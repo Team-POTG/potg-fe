@@ -1,14 +1,8 @@
 import React from "react";
-import Search from "../components/Search/Search";
+import Search from "../components/common/Search/Search";
 
 function Main() {
-  return (
-    <React.Fragment>
-      <div className="flex justify-center">
-        <Search />
-      </div>
-    </React.Fragment>
-  );
+  return <React.Fragment></React.Fragment>;
 }
 
 export default Main;

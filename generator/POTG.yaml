@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  title: POTG v1
+  version: v1
+paths:
+  /api/potg-lol/potg/auto-complete:
+    get:
+      tags:
+        - Potg
+      operationId: AutoComplete
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+        - name: region
+          in: query
+          schema:
+            type: string
+            default: kr
+      responses:
+        "200":
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SummonerSearchDto"
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SummonerSearchDto"
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SummonerSearchDto"
+        "500":
+          description: Server Error
+  /api/potg-lol/potg/test:
+    get:
+      tags:
+        - Potg
+      responses:
+        "200":
+          description: Success
+components:
+  schemas:
+    SummonerSearchDto:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        tier:
+          type: integer
+          format: int32
+          nullable: true
+        rank:
+          type: integer
+          format: int32
+          nullable: true
+        leaguePoint:
+          type: integer
+          format: int32
+          nullable: true
+        level:
+          type: integer
+          format: int32
+          nullable: true
+        profileIcon:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false

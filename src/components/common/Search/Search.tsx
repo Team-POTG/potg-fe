@@ -4,12 +4,17 @@ import SearchButton from "./SearchButton";
 
 function Search() {
   const [inputFocus, setInputFocus] = useState(false);
+  const style = {
+    size: "sm:w-4/5 lg:w-5/6 w-5/6 max-w-5xl",
+    rounded:
+      "sm:rounded-[20px] md:rounded-[35px] lg:rounded-[35px] rounded-[20px]",
+  };
 
   return (
     <div
-      className={`flex flex-col sm:w-4/5 lg:w-5/6 w-5/6 gap-1 max-w-5xl ${
+      className={`flex flex-col ${style.size} gap-1 ${
         inputFocus ? "shadow-search_input_focus" : ""
-      } sm:rounded-[20px] md:rounded-[35px] lg:rounded-[35px] rounded-[20px] overflow-hidden bg-white`}
+      } ${style.rounded} overflow-hidden bg-white`}
     >
       <div
         className="flex items-center gap-1 w-full"
