@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import useSummonerHistory from "../../hooks/useSummonerHistory";
 import Profile from "../../components/summoners/Profile/Profile";
+import Matches from "../../components/summoners/Matches/Matches";
 
 function Summoners() {
   // const [summonerCookie, setSummonerCookie] = useCookies(["summonerHistory"]);
@@ -20,8 +21,9 @@ function Summoners() {
   }, [setSummonerHistory]);
 
   return (
-    <div className="">
+    <div className="flex flex-col gap-7">
       <Profile />
+      <Matches />
     </div>
   );
 }
