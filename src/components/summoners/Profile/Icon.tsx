@@ -1,5 +1,5 @@
 import React from "react";
-import { IMAGE_CDN } from "../../../config/host";
+import { SUMMONER_IMAGE_CDN } from "../../../config/host";
 
 interface Props {
   /**
@@ -16,7 +16,7 @@ function SummonerIcon(props: Props) {
   return (
     <div className={style.size}>
       <img
-        src={`${IMAGE_CDN}${props.profileIconId}.png`}
+        src={`${SUMMONER_IMAGE_CDN}${props.profileIconId}.png`}
         className={`${style.rounded} `}
         alt=""
         loading="lazy"

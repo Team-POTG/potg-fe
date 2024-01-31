@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import { Chart, DoughnutController, ArcElement } from "chart.js/auto";
-import { Doughnut } from "react-chartjs-2";
 
 function RecentMatchRate() {
   Chart.register(ArcElement);
@@ -33,7 +32,7 @@ function RecentMatchRate() {
   return (
     <div className="flex rounded-xl h-[122px] w-60 bg-white ">
       <div className="flex">
-        <Doughnut className="w-20 -m-[5px] -mt-[10px]" data={data} />
+        {/* <Doughnut className="w-20 -m-[5px] -mt-[10px]" data={data} /> */}
       </div>
     </div>
   );

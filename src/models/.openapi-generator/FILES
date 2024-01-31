@@ -1,0 +1,12 @@
+apis/AccountApi.ts
+apis/LeagueApi.ts
+apis/MatchApi.ts
+apis/RequestApi.ts
+apis/SummonerApi.ts
+apis/index.ts
+index.ts
+models/Account.ts
+models/League.ts
+models/Summoner.ts
+models/index.ts
+runtime.ts

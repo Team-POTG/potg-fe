@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { SummonerApiFactory } from "../../../models";
 import SummonerInfo from "../../../types/summonerProfile";
-import { useParams } from "react-router-dom";
 import Icon from "./Icon";
 import Level from "./Level";
 import Name from "./Name";
@@ -9,34 +6,25 @@ import Tier from "./Tier";
 import RecentMatchRate from "./RecentMatchRate";
 import RecentUseChampion from "./RecentUseChampion";
 
-function Profile() {
-  const [summonerInfo, setSummonerInfo] = useState<SummonerInfo>();
-  const routerParam = useParams();
+interface Props {
+  summonerName?: string;
+  profileIconId?: number;
+  puuid?: string;
+  level?: number;
+}
 
-  useEffect(() => {
-    SummonerApiFactory()
-      .getSummoner(routerParam.summonerName ?? "", "kr")
-      .then((data) =>
-        setSummonerInfo({
-          summonerName: data.data.name,
-          profileIconId: data.data.profileIconId,
-          level: data.data.level,
-          ranks: data.data.ranks,
-        })
-      );
-  }, [routerParam.summonerName]);
-
+function Profile(props: Props) {
   return (
     <div className="flex gap-3">
       <div className="flex flex-col gap-2 bg-white h-64 w-52 justify-center place-items-center p-3 rounded-2xl shadow-box">
-        <Icon profileIconId={summonerInfo?.profileIconId} />
+        <Icon profileIconId={props?.profileIconId} />
         <div className="flex gap-1 h-fit">
-          <Level level={summonerInfo?.level} />
-          <Name name={summonerInfo?.summonerName} />
+          <Level level={props?.level} />
+          <Name name={props?.summonerName} />
         </div>
       </div>
       <div>
-        <Tier ranks={summonerInfo?.ranks} />
+        <Tier ranks={undefined} />
       </div>
       <div className="flex flex-col gap-3">
         <RecentMatchRate />

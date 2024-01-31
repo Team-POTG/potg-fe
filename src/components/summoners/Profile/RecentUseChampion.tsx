@@ -18,7 +18,7 @@ function UseChapionItem() {
         alt=""
       />
       <div className="flex flex-col">
-        <p className="text-sm font-bold">레나타 글라스크</p>
+        <p className="text-sm font-bold">ㅇㅇ</p>
         <p className="text-xs">32게임 (1승 2패)</p>
       </div>
     </div>

@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.8.10",
+    "@emotion/css": "^11.11.2",
+    "@emotion/react": "^11.11.3",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
     "@reduxjs/toolkit": "^1.8.3",
+    "@tanstack/react-query": "^5.17.19",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -15,7 +21,9 @@
     "axios": "^0.27.2",
     "babel-loader": "^9.1.2",
     "babel-preset-es2015": "^6.24.1",
+    "facepaint": "^1.2.1",
     "framer-motion": "^10.12.7",
+    "graphql": "^16.8.1",
     "http-proxy-middleware": "^2.0.6",
     "postcss": "^8.4.14",
     "react": "^18.2.0",
@@ -36,7 +44,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "openapi-generator generate -i ./generator/Summoner.yaml -g typescript-axios -o ./src/models/Summoner -c ./openapi.json --skip-validate-spec",
+    "openapi-generate": "openapi-generator generate -i ./generator/Summoner.yaml -g typescript-axios -o ./src/models/Summoner -c ./openapi.json --skip-validate-spec",
+    "graphql-generate": "graphql-codegen --config codegen.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -73,12 +82,15 @@
     "@storybook/react": "^7.0.18",
     "@storybook/react-webpack5": "^7.0.18",
     "@storybook/testing-library": "^0.0.14-next.2",
+    "@types/facepaint": "^1.2.5",
     "babel-plugin-named-exports-order": "^0.0.2",
     "chart.js": "^4.3.0",
     "eslint-plugin-storybook": "^0.6.12",
     "prop-types": "^15.8.1",
     "react-chartjs-2": "^5.2.0",
     "storybook": "^7.0.18",
-    "webpack": "^5.84.1"
+    "webpack": "^5.84.1",
+    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/client-preset": "4.1.0"
   }
 }

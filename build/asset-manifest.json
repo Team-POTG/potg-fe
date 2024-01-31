@@ -1,13 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.aa1571b3.css",
-    "main.js": "/static/js/main.b45bd423.js",
+    "main.css": "/static/css/main.d7ec51f8.css",
+    "main.js": "/static/js/main.c280d25c.js",
+    "static/media/Challenger.png": "/static/media/Challenger.ed956a3ddd15414287a5.png",
+    "static/media/Grandmaster.png": "/static/media/Grandmaster.3c851ed515dd4d401d93.png",
+    "static/media/Diamond.png": "/static/media/Diamond.f6e5ecf568b3c3cde820.png",
+    "static/media/Master.png": "/static/media/Master.8d795a5a6f428a8a00f1.png",
+    "static/media/Gold.png": "/static/media/Gold.6445f14e601a1db230e8.png",
+    "static/media/Platinum.png": "/static/media/Platinum.8fac851c7b05276fec67.png",
+    "static/media/Silver.png": "/static/media/Silver.3a6e76d8b7553dd03254.png",
+    "static/media/Bronze.png": "/static/media/Bronze.b32919c91e1b18bd42ee.png",
+    "static/media/Iron.png": "/static/media/Iron.f851d815194d357e8da2.png",
     "index.html": "/index.html",
-    "main.aa1571b3.css.map": "/static/css/main.aa1571b3.css.map",
-    "main.b45bd423.js.map": "/static/js/main.b45bd423.js.map"
+    "main.d7ec51f8.css.map": "/static/css/main.d7ec51f8.css.map",
+    "main.c280d25c.js.map": "/static/js/main.c280d25c.js.map"
   },
   "entrypoints": [
-    "static/css/main.aa1571b3.css",
-    "static/js/main.b45bd423.js"
+    "static/css/main.d7ec51f8.css",
+    "static/js/main.c280d25c.js"
   ]
 }

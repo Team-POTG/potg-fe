@@ -13,7 +13,7 @@ export default function useSummonerHistory(): [
   (summonerName: summoner) => void
 ] {
   const [cookie, setCookie, removeCookie] = useCookies(["summonerHistory"]);
-  console.log(cookie.summonerHistory);
+  // console.log(cookie.summonerHistory);
 
   return [
     cookie,

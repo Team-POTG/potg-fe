@@ -1,77 +1,311 @@
-openapi: 3.0.1
-info:
-  title: POTG v1
-  version: v1
+openapi: 3.0.0
 paths:
-  /api/potg-lol/potg/auto-complete:
+  /potg/common/accounts/by-riot-id:
     get:
-      tags:
-        - Potg
-      operationId: AutoComplete
+      operationId: getAccountByGameNameWithTagLine
+      summary: ""
       parameters:
-        - name: query
+        - name: tagLine
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: gameName
+          required: true
           in: query
           schema:
             type: string
         - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+      tags:
+        - Account
+  /potg/lol/summoner/by-puuid/{puuid}:
+    get:
+      operationId: getSummonerByPuuid
+      summary: ""
+      parameters:
+        - name: puuid
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Summoner"
+      tags:
+        - Summoner
+  /potg/lol/matches/by-puuid/{puuid}:
+    get:
+      operationId: getMatch
+      summary: ""
+      parameters:
+        - name: puuid
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: count
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - AMERICAS
+              - ASIA
+              - EUROPE
+              - SEA
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags:
+        - Match
+  /potg/lol/request/by-puuid:
+    post:
+      operationId: requestByPuuid
+      summary: ""
+      parameters:
+        - name: puuid
+          required: true
           in: query
           schema:
             type: string
-            default: kr
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "201":
+          description: ""
+      tags:
+        - Request
+  /potg/lol/request/by-riot-id:
+    post:
+      operationId: requestByTagLineWithGameName
+      summary: ""
+      parameters:
+        - name: tagLine
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: gameName
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "201":
+          description: ""
+      tags:
+        - Request
+  /potg/lol/league/by-summoner/{id}:
+    get:
+      operationId: getLeague
+      summary: ""
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
       responses:
         "200":
-          description: Success
+          description: ""
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/SummonerSearchDto"
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/SummonerSearchDto"
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/SummonerSearchDto"
-        "500":
-          description: Server Error
-  /api/potg-lol/potg/test:
-    get:
+                $ref: "#/components/schemas/League"
       tags:
-        - Potg
-      responses:
-        "200":
-          description: Success
+        - League
+info:
+  title: POTG
+  description: POTG RestAPI Document
+  version: BETA1
+  contact: {}
+tags: []
+servers: []
 components:
   schemas:
-    SummonerSearchDto:
+    Account:
       type: object
       properties:
+        puuid:
+          type: string
+        gameName:
+          type: string
+        tagLine:
+          type: string
+      required:
+        - puuid
+        - gameName
+        - tagLine
+    Summoner:
+      type: object
+      properties:
+        accountId:
+          type: string
+        profileIconId:
+          type: number
+        revisionDate:
+          type: number
         name:
           type: string
-          nullable: true
-        tier:
-          type: integer
-          format: int32
-          nullable: true
-        rank:
-          type: integer
-          format: int32
-          nullable: true
-        leaguePoint:
-          type: integer
-          format: int32
-          nullable: true
-        level:
-          type: integer
-          format: int32
-          nullable: true
-        profileIcon:
-          type: integer
-          format: int32
-          nullable: true
-      additionalProperties: false
+        id:
+          type: string
+        puuid:
+          type: string
+        summonerLevel:
+          type: number
+      required:
+        - accountId
+        - profileIconId
+        - revisionDate
+        - name
+        - id
+        - puuid
+        - summonerLevel
+    League:
+      type: object
+      properties:
+        accountId:
+          type: string
+        profileIconId:
+          type: number
+        revisionDate:
+          type: number
+        name:
+          type: string
+        id:
+          type: string
+        puuid:
+          type: string
+        summonerLevel:
+          type: number
+      required:
+        - accountId
+        - profileIconId
+        - revisionDate
+        - name
+        - id
+        - puuid
+        - summonerLevel
