@@ -30,7 +30,9 @@ function Matches(props: { puuid: string | undefined }) {
             puuid
             championName
             championId
-            summoner2Id
+            summonerName
+            riotIdGameName
+            riotIdTagline
             teamId
             item0
             item1

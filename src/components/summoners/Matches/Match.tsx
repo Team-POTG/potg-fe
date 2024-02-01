@@ -26,7 +26,6 @@ function Match(props: {
 
   console.log(navigatedSummonerParticipant);
 
-  // TODO: 화면이 새로 고쳐지면(다른 사람의 전적을 확인했을 때) 모든 컴포넌트가 초기화되도록 변경
   return (
     <div
       className={`flex flex-col border-2 ${

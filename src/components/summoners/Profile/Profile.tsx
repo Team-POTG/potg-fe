@@ -5,6 +5,9 @@ import Name from "./Name";
 import Tier from "./Tier";
 import RecentMatchRate from "./RecentMatchRate";
 import RecentUseChampion from "./RecentUseChampion";
+import Refetch from "./Refetch";
+import Favorite from "./Favorite";
+import { css } from "@emotion/css";
 
 interface Props {
   summonerName?: string;
@@ -12,6 +15,18 @@ interface Props {
   puuid?: string;
   level?: number;
 }
+
+const styles = {
+  div: {
+    function: css`
+      width: 128px;
+      /* background-color: red; */
+      /* display: flex; */
+      /* width: 100%; */
+      /* flex: ; */
+    `,
+  },
+};
 
 function Profile(props: Props) {
   return (
@@ -21,6 +36,11 @@ function Profile(props: Props) {
         <div className="flex gap-1 h-fit">
           <Level level={props?.level} />
           <Name name={props?.summonerName} />
+        </div>
+        <div></div>
+        <div className={styles.div.function}>
+          <Refetch />
+          <Favorite />
         </div>
       </div>
       <div>
