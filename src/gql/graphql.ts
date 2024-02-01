@@ -133,7 +133,7 @@ export type ParticipantDto = {
   profileIcon: Scalars['Float']['output'];
   puuid: Scalars['String']['output'];
   quadraKills: Scalars['Float']['output'];
-  riotIdName: Scalars['String']['output'];
+  riotIdGameName: Scalars['String']['output'];
   riotIdTagline: Scalars['String']['output'];
   role: Scalars['String']['output'];
   sightWardsBoughtInGame: Scalars['Float']['output'];
