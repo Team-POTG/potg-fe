@@ -24,12 +24,14 @@ function Match(props: {
     (summoner) => summoner.puuid === props.puuid
   )[0];
 
-  console.log(navigatedSummonerParticipant);
+  // console.log(navigatedSummonerParticipant.win);
 
   return (
     <div
       className={`flex flex-col border-2 ${
-        true ? "border-blue-400 bg-blue-200" : "border-rose-400 bg-rose-200"
+        navigatedSummonerParticipant.win
+          ? "border-blue-400 bg-blue-200"
+          : "border-rose-400 bg-rose-200"
       }  gap-1 min-h-[120px] text-center rounded-md py-1 justify-center`}
     >
       <div className="flex flex-grow gap-10 items-center place-self-center">

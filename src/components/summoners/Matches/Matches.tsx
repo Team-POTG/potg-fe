@@ -46,6 +46,7 @@ function Matches(props: { puuid: string | undefined }) {
             assists
             wardsPlaced
             individualPosition
+            win
           }
         }
       }
