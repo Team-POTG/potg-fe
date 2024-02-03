@@ -17,6 +17,7 @@ function Matches(props: { puuid: string | undefined }) {
         count: 20
       ) {
         info {
+          gameCreation
           gameMode
           teams {
             bans {
@@ -57,6 +58,10 @@ function Matches(props: { puuid: string | undefined }) {
     if (!loading) console.log(data);
   }, [props.puuid]);
 
+  // const a = data?.getMatch.sort(function (a, b) {
+  //   return a.info.gameCreation - b.info.gameCreation;
+  // });
+  // console.log(data?.getMatch[0].info.gameCreation);
   // const client = new ApolloClient({
   //   uri: process.env.SERVER_URL,
   //   cache: new InMemoryCache(),
@@ -146,9 +151,23 @@ function Matches(props: { puuid: string | undefined }) {
         {/* {Array.of(JSON.stringify(a)).map((match, index) => (
           <div>{match}</div>
         ))} */}
-        {data?.getMatch?.map((match, index) => (
+        {data?.getMatch
+          .slice()
+          .sort(
+            (prevMatch, currentMatch) =>
+              currentMatch.info.gameCreation - prevMatch.info.gameCreation
+          )
+          .map((match, index) => (
+            <Match
+              match={match}
+              puuid={props.puuid}
+              key={index}
+              index={index}
+            />
+          ))}
+        {/* {data?.getMatch.map((match, index) => (
           <Match match={match} puuid={props.puuid} key={index} index={index} />
-        ))}
+        ))} */}
       </div>
     </div>
   );
