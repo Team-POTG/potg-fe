@@ -12,7 +12,7 @@ function Summoner() {
   const location = useLocation();
   const [profile, setProfile] = useState();
 
-  const { isPending, error, data, refetch } = useQuery({
+  const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["accountData"],
     queryFn: async () => {
       // const riotId = new RiotId(routerParam).separate();
@@ -97,7 +97,9 @@ function Summoner() {
   //   });
   // }, [routerParam.summonerName, setNavigatedSummonerPuuid]);
 
-  if (isPending) return <></>;
+  if (isLoading) return <></>;
+  if (data?.account.puuid === undefined) return <></>;
+
   return (
     <div className="flex flex-col gap-7">
       <Profile
