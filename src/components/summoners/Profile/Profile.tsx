@@ -1,4 +1,3 @@
-import SummonerInfo from "../../../types/summonerProfile";
 import Icon from "./Icon";
 import Level from "./Level";
 import Name from "./Name";
