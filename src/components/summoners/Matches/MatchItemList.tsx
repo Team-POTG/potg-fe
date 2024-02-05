@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ITEM_IMAGE_CDN } from "../../../../config/host";
+import { ITEM_IMAGE_CDN } from "../../../config/host";
 
 type Inventory = {
   item0: number;
@@ -11,7 +11,7 @@ type Inventory = {
   item6: number;
 };
 
-function ItemList(props: { items: Inventory }) {
+function MatchItemList(props: { items: Inventory }) {
   const sortedInventory = [
     props.items.item0,
     props.items.item1,
@@ -48,4 +48,4 @@ function Item(props: { itemId?: number }) {
   );
 }
 
-export default ItemList;
+export default MatchItemList;

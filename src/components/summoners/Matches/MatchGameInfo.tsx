@@ -4,7 +4,7 @@ interface Props {
   isWin?: boolean;
 }
 
-function GameInfo(props: Props) {
+function MatchGameInfo(props: Props) {
   return (
     <div className="flex flex-col text-sm gap-1 text-slate-700">
       <p className="font-bold">일반</p>
@@ -26,4 +26,4 @@ function getGameDurationTime(time: number) {
   // }`;
 }
 
-export default GameInfo;
+export default MatchGameInfo;

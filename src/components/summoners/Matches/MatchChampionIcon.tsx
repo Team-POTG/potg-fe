@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { CHAMPION_IMAGE_CDN } from "../../../../config/host";
+import React from "react";
+import { CHAMPION_IMAGE_CDN } from "../../../config/host";
 
-function ChampionIcon(props: { championName: string }) {
+function MatchChampionIcon(props: { championName: string }) {
   return (
     <div className="flex h-[68px] w-[68px] rounded-xl overflow-hidden items-center">
       <img
@@ -14,4 +14,4 @@ function ChampionIcon(props: { championName: string }) {
   );
 }
 
-export default ChampionIcon;
+export default MatchChampionIcon;

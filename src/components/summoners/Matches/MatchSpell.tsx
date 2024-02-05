@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-function Spell(props: { summoner1Id: number; summoner2Id: number }) {
+function MatchSpell(props: { summoner1Id: number; summoner2Id: number }) {
   return (
     <div className="flex flex-col gap-1">
       <SpellItem spellName={props.summoner1Id} />
@@ -20,4 +20,4 @@ function SpellItem(props: { spellName: number }) {
   );
 }
 
-export default Spell;
+export default MatchSpell;

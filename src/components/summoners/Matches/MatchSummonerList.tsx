@@ -1,54 +1,36 @@
-import React, { useEffect } from "react";
-import { CHAMPION_IMAGE_CDN } from "../../../../config/host";
-import { useRecoilValue } from "recoil";
-import { puuidState } from "../../../../recoil/summonerInfo";
-import { MatchDto, ParticipantDto, TeamDto } from "../../../../gql/graphql";
+import React, { useContext } from "react";
+import { CHAMPION_IMAGE_CDN } from "../../../config/host";
+import { ParticipantDto } from "../../../gql/graphql";
 import { css } from "@emotion/css";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { accountState } from "../../../recoil/navigate/atom";
+import { ParticipantsContext } from "./Match";
 
-function SummonerList(props: { participants: ParticipantDto[] }) {
-  return (
-    <div className="flex gap-2">
-      {/* {props.participants?.map((team) => {
-        // return <></>; */}
-      <TeamItem participants={props.participants} />
-      {/* })} */}
-    </div>
-  );
-}
-
-function TeamItem(props: { participants: ParticipantDto[] }) {
-  // const navigatedSummonerPuuid = useRecoilValue(puuidState);
+function MatchSummonerList() {
+  const account = useRecoilValue(accountState);
+  const participants = useContext(ParticipantsContext);
 
   return (
     <div className="flex flex-col gap-1">
       <div
         className={css`
           display: grid;
-          /* grid-template-rows: repeat(5, 100px); */
           grid-template-columns: repeat(2, 100px);
           grid-template-rows: repeat(5, auto);
           grid-auto-flow: column;
           grid-row-gap: 2px;
         `}
       >
-        {props.participants.map((participant) => (
+        {participants.map((participant) => (
           <SummonerItem
             championName={participant.championName}
             riotIdGameName={participant.riotIdGameName}
-            riotIdTagline={participant.riotIdTagline} // isFocusedSummoner={summoner.puuid === navigatedSummonerPuuid}
+            riotIdTagline={participant.riotIdTagline}
+            isFocusedSummoner={participant.puuid === account.puuid}
           />
         ))}
       </div>
-      {/* {props.team?.map((summoner) => {
-        return (
-          <SummonerItem
-            summonerName={summoner.}
-            championName={summoner.championName}
-            isFocusedSummoner={summoner.puuid === navigatedSummonerPuuid}
-          />
-        );
-      })} */}
     </div>
   );
 }
@@ -83,4 +65,4 @@ function SummonerItem(props: {
   );
 }
 
-export default SummonerList;
+export default MatchSummonerList;

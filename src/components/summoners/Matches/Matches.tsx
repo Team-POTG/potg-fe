@@ -1,21 +1,22 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect } from "react";
 import GameTypeCategory from "./GameTypeCategory";
 import Analytic from "./Analytic";
-import { gql, useQuery, execute, useLazyQuery } from "@apollo/client";
-import { apolloClient } from "../../..";
+import { gql, useQuery } from "@apollo/client";
 import { MatchDto } from "../../../gql/graphql";
 import Match from "./Match";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { accountState } from "../../../recoil/navigate/atom";
+import { matchesState } from "../../../recoil/match/atom";
 
-// export const matchContext = createContext<MatchDto[]>([]);
+function Matches() {
+  const account = useRecoilValue(accountState);
 
-function Matches(props: { puuid: string }) {
   const { loading, error, data, refetch } = useQuery<{
     getMatch: MatchDto[];
   }>(gql`
     query {
       getMatch(
-        puuid: "${props.puuid}"
+        puuid: "${account.puuid}"
         count: 20
       ) {
         info {
@@ -49,6 +50,8 @@ function Matches(props: { puuid: string }) {
             assists
             wardsPlaced
             wardsKilled
+            detectorWardsPlaced
+            visionScore
             totalMinionsKilled
             neutralMinionsKilled
             individualPosition
@@ -60,14 +63,12 @@ function Matches(props: { puuid: string }) {
 
   useEffect(() => {
     refetch();
-    if (!loading) console.log(data);
-  }, [props.puuid]);
+  }, [refetch]);
 
   if (loading) return <></>;
   if (data === undefined) return <>전적 기록이 존재하지 않습니다.</>;
 
   return (
-    // <matchContext.Provider value={data?.getMatch}>
     <div className="flex flex-col gap-5 text-slate-600">
       <div className="flex gap-1 ml-5 font-bold">
         <p>최근</p>
@@ -84,16 +85,10 @@ function Matches(props: { puuid: string }) {
               currentMatch.info.gameCreation - prevMatch.info.gameCreation
           )
           .map((match, index) => (
-            <Match
-              match={match}
-              puuid={props.puuid}
-              key={index}
-              index={index}
-            />
+            <Match match={match} index={index} key={index} />
           ))}
       </div>
     </div>
-    // </matchContext.Provider>
   );
 }
 

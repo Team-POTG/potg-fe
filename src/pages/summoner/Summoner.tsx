@@ -7,15 +7,16 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AccountApi } from "../../models/apis/AccountApi";
 import { LeagueApi, SummonerApi } from "../../models";
 import { RiotId } from "../../tools/riotId";
+import { useRecoilState } from "recoil";
+import { accountState } from "../../recoil/navigate/atom";
 
 function Summoner() {
   const location = useLocation();
-  const [profile, setProfile] = useState();
+  const [account, setAccount] = useRecoilState(accountState);
 
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ["accountData"],
     queryFn: async () => {
-      // const riotId = new RiotId(routerParam).separate();
       const account = await new AccountApi().getAccountByGameNameWithTagLine({
         tagLine: location.hash.replace("#", ""),
         gameName: decodeURI(location.pathname.replace("/", "")),
@@ -38,7 +39,11 @@ function Summoner() {
 
   useEffect(() => {
     refetch();
-  }, [location]);
+
+    if (isLoading) return;
+    if (data === undefined) return;
+    setAccount({ puuid: data?.account.puuid });
+  }, [data, isLoading, location, refetch, setAccount]);
 
   // const [summonerCookie, setSummonerCookie] = useCookies(["summonerHistory"]);
   // const [summonerHistory, setSummonerHistory] = useSummonerHistory();
@@ -109,7 +114,7 @@ function Summoner() {
         level={data?.summoner.summonerLevel}
       />
       <CurrentGame />
-      <Matches puuid={data?.account.puuid} />
+      <Matches />
     </div>
   );
 }

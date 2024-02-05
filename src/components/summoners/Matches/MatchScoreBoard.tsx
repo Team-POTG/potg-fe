@@ -1,17 +1,62 @@
-import React, { createContext, useContext, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { MatchDto, ParticipantDto } from "../../../../gql/graphql";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { ParticipantDto } from "../../../gql/graphql";
+import { ParticipantsContext } from "./Match";
+import useRankedScoreToggle from "../../../hooks/useRankedScoreToggle";
 
-type Score = {
-  kills: number;
-  deaths: number;
-  assists: number;
-  cs: {};
-  ward: number;
-};
+function MatchScoreBoard(props: { participant: ParticipantDto }) {
+  const participants = useContext(ParticipantsContext);
+  // const [isRankedScoreShow, setIsRankedScoreShow] = useState(true);
+  const [isRankedScore, setRankedScoreToggle] = useRankedScoreToggle();
 
-function ScoreBoard(props: { participant: ParticipantDto }) {
-  const [isRankedScoreVisible, setIsRankedScoreVisible] = useState(true);
+  const scoreRank = {
+    kills:
+      participants
+        .flatMap((participant) => participant.kills)
+        .sort((prevKills, currentKills) => currentKills - prevKills)
+        .findIndex((kills) => kills === props.participant.kills) + 1,
+    deaths:
+      participants
+        .flatMap((participant) => participant.deaths)
+        .sort((prevDeaths, currentDeaths) => currentDeaths - prevDeaths)
+        .findIndex((deaths) => deaths === props.participant.deaths) + 1,
+    assists:
+      participants
+        .flatMap((participant) => participant.assists)
+        .sort((prevAssists, currentAssists) => currentAssists - prevAssists)
+        .findIndex((assists) => assists === props.participant.assists) + 1,
+    cs:
+      participants
+        .flatMap(
+          (participant) =>
+            participant.totalMinionsKilled + participant.neutralMinionsKilled
+        )
+        .sort((prevCs, currentCs) => currentCs - prevCs)
+        .findIndex(
+          (cs) =>
+            cs ===
+            props.participant.totalMinionsKilled +
+              props.participant.neutralMinionsKilled
+        ) + 1,
+    ward:
+      participants
+        .flatMap(
+          (participant) =>
+            participant.wardsPlaced +
+            participant.detectorWardsPlaced +
+            participant.wardsKilled +
+            participant.visionScore
+        )
+        .sort((prevWard, currentWard) => currentWard - prevWard)
+        .findIndex(
+          (ward) =>
+            ward ===
+            props.participant.wardsPlaced +
+              props.participant.detectorWardsPlaced +
+              props.participant.wardsKilled +
+              props.participant.visionScore
+        ) + 1,
+  };
+
   // const matchRecoilData = useRecoilValue(matchesDataState).at(
   //   matchContext.index ?? 0
   // );
@@ -101,7 +146,7 @@ function ScoreBoard(props: { participant: ParticipantDto }) {
     <div
       className="flex justify-center cursor-pointer select-none w-72"
       onClick={() => {
-        setIsRankedScoreVisible(!isRankedScoreVisible);
+        setRankedScoreToggle();
       }}
     >
       <table className="text-gray-600">
@@ -120,16 +165,49 @@ function ScoreBoard(props: { participant: ParticipantDto }) {
         <tbody>
           <tr className="text-xl font-extrabold">
             <td>
-              <ScoreItem rank={0} score={props.participant.kills} />
+              <ScoreItem
+                rank={scoreRank.kills}
+                score={props.participant.kills}
+                isRanked={isRankedScore}
+              />
             </td>
             <td className="text-red-600">
-              <ScoreItem rank={0} score={props.participant.deaths} />
+              <ScoreItem
+                rank={scoreRank.deaths}
+                score={props.participant.deaths}
+                isRanked={isRankedScore}
+              />
             </td>
             <td>
-              <ScoreItem rank={0} score={props.participant.assists} />
+              <ScoreItem
+                rank={scoreRank.assists}
+                score={props.participant.assists}
+                isRanked={isRankedScore}
+              />
             </td>
             <td>
               <div className="flex gap-1 justify-center">
+                <ScoreItem
+                  rank={
+                    props.participant.individualPosition === "UTILITY"
+                      ? scoreRank.ward
+                      : scoreRank.cs
+                  }
+                  score={
+                    props.participant.individualPosition === "UTILITY"
+                      ? props.participant.wardsPlaced +
+                        props.participant.detectorWardsPlaced +
+                        props.participant.wardsKilled +
+                        props.participant.visionScore
+                      : props.participant.totalMinionsKilled +
+                        props.participant.neutralMinionsKilled
+                  }
+                  isRanked={isRankedScore}
+                />
+                {/* {props.participant.individualPosition === "UTILITY"
+                  ? props.participant.wardsPlaced
+                  : props.participant.totalMinionsKilled +
+                    props.participant.neutralMinionsKilled} */}
                 {/* {props.individualPosition === "UTILITY"
                   ? isRankedScoreVisible
                     ? scoreData.rank.ward
@@ -174,15 +252,19 @@ function ScoreBoard(props: { participant: ParticipantDto }) {
 }
 
 function Rank() {
-  return <div className="text-xs font-semibold self-end mb-[4px]">등</div>;
+  return;
 }
 
-function ScoreItem(props: { rank: number; score: number }) {
-  // const scoreboardContext = useContext(ScoreBoardContext);
-
+function ScoreItem(props: { rank: number; score: number; isRanked: boolean }) {
   return (
     <div className="flex gap-1 justify-center">
-      {props.score}
+      {props.isRanked ? props.rank : props.score}
+      {props.isRanked ? (
+        <div className="text-xs font-semibold self-end mb-[4px]">등</div>
+      ) : (
+        <></>
+      )}
+      {/* {props.score} */}
       {/* {(scoreboardContext ? props.rank : props.score) ?? 0} */}
       {/* {scoreboardContext && ( */}
       {/* <div className="text-xs font-semibold self-end mb-[4px]">등</div> */}
@@ -191,4 +273,4 @@ function ScoreItem(props: { rank: number; score: number }) {
   );
 }
 
-export default ScoreBoard;
+export default MatchScoreBoard;
