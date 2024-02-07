@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Profile from "../../components/summoners/Profile/Profile";
 import Matches from "../../components/summoners/Matches/Matches";
@@ -39,11 +39,12 @@ function Summoner() {
 
   useEffect(() => {
     refetch();
+  }, [location]);
 
+  useLayoutEffect(() => {
     if (isLoading) return;
-    if (data === undefined) return;
-    setAccount({ puuid: data?.account.puuid });
-  }, [data, isLoading, location, refetch, setAccount]);
+    if (data !== undefined) setAccount({ puuid: data?.account.puuid });
+  }, [data, isLoading]);
 
   // const [summonerCookie, setSummonerCookie] = useCookies(["summonerHistory"]);
   // const [summonerHistory, setSummonerHistory] = useSummonerHistory();
