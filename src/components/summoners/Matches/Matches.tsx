@@ -21,11 +21,17 @@ function Matches() {
       ) {
         info {
           gameCreation
-          gameMode
+          queueId
+          gameDuration
           teams {
             bans {
               championId
               pickTurn
+            }
+            objectives {
+              champion {
+                kills
+              }
             }
             win
             teamId

@@ -3,7 +3,6 @@ import { accountState } from "../../../recoil/navigate/atom";
 import MatchChampionIcon from "./MatchChampionIcon";
 import MatchScoreBoard from "./MatchScoreBoard";
 import MatchSummonerList from "./MatchSummonerList";
-import { matchesState } from "../../../recoil/match/atom";
 import { MatchDto, ParticipantDto } from "../../../gql/graphql";
 import { createContext } from "react";
 import MatchGameInfo from "./MatchGameInfo";
@@ -29,7 +28,11 @@ function Match(props: { match: MatchDto; index: number }) {
         }  gap-1 min-h-[120px] text-center rounded-md py-1 justify-center`}
       >
         <div className="flex flex-grow gap-10 items-center place-self-center">
-          <MatchGameInfo mode="normal" />
+          <MatchGameInfo
+            queueId={props.match.info.queueId}
+            time={props.match.info.gameDuration}
+            isWin={navigatedSummonerParticipant.win}
+          />
           <div className="flex gap-2">
             <MatchChampionIcon
               championName={navigatedSummonerParticipant.championName}
@@ -50,7 +53,16 @@ function Match(props: { match: MatchDto; index: number }) {
               }}
             />
           </div>
-          <MatchScoreBoard participant={navigatedSummonerParticipant} />
+          <MatchScoreBoard
+            participant={navigatedSummonerParticipant}
+            teamTotalKills={
+              props.match.info.teams.find(
+                (teamId) =>
+                  teamId.teamId === navigatedSummonerParticipant.teamId
+              )?.objectives.champion.kills
+            }
+            gameDuration={props.match.info.gameDuration}
+          />
           <MatchSummonerList />
         </div>
       </div>
