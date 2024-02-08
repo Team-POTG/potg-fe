@@ -44,7 +44,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "openapi-generate": "openapi-generator generate -i ./generator/Summoner.yaml -g typescript-axios -o ./src/models/Summoner -c ./openapi.json --skip-validate-spec",
+    "openapi-generate": "openapi-generator generate -i ./generator/POTG.yaml -g typescript-fetch -o ./src/models/ -c ./openapi.json --skip-validate-spec",
     "graphql-generate": "graphql-codegen --config codegen.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
