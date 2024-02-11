@@ -67,9 +67,9 @@ function Matches() {
       }
     }`);
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [location]);
 
   if (loading) return <></>;
   if (data === undefined) return <>전적 기록이 존재하지 않습니다.</>;

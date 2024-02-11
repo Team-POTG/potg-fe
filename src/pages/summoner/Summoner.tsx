@@ -1,50 +1,82 @@
-import { useEffect, useLayoutEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useLayoutEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Profile from "../../components/summoners/Profile/Profile";
 import Matches from "../../components/summoners/Matches/Matches";
 import CurrentGame from "../../components/summoners/CurrentGame/CurrentGame";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AccountApi } from "../../models/apis/AccountApi";
 import { LeagueApi, SummonerApi } from "../../models";
-import { RiotId } from "../../tools/riotId";
 import { useRecoilState } from "recoil";
 import { accountState } from "../../recoil/navigate/atom";
+import { SpectatorApi } from "../../models/apis/SpectatorApi";
 
 function Summoner() {
   const location = useLocation();
-  const [account, setAccount] = useRecoilState(accountState);
+  // 쓸데없는 re-render 줄이기
+  const [, setAccount] = useRecoilState(accountState);
 
   const { isLoading, error, data, refetch } = useQuery({
-    queryKey: ["accountData"],
+    queryKey: ["summonerData"],
     queryFn: async () => {
-      const account = await new AccountApi().getAccountByGameNameWithTagLine({
-        tagLine: location.hash.replace("#", ""),
-        gameName: decodeURI(location.pathname.replace("/", "")),
-        region: "KR",
-      });
+      const account = await new AccountApi()
+        .getAccountByGameNameWithTagLine({
+          tagLine: location.hash.replace("#", ""),
+          gameName: decodeURI(location.pathname.replace("/", "")),
+          region: "KR",
+        })
+        .catch(() => {
+          return undefined;
+        });
 
-      const summoner = await new SummonerApi().getSummonerByPuuid({
-        puuid: account.puuid,
-        region: "KR",
-      });
+      if (account === undefined) return;
+      const summoner = await new SummonerApi()
+        .getSummonerByPuuid({
+          puuid: account.puuid,
+          region: "KR",
+        })
+        .catch(() => {
+          return undefined;
+        });
 
-      // const league = await new LeagueApi().getLeague({
-      //   id: summoner.id,
-      //   region: "KR",
-      // });
+      if (summoner === undefined) return;
 
-      return { account: account, summoner: summoner };
+      const spectator = await new SpectatorApi()
+        .getSpectator({
+          summonerId: summoner.id,
+          region: "KR",
+        })
+        .catch(() => {
+          return undefined;
+        });
+
+      // const league = await new LeagueApi()
+      //   .getLeague({
+      //     id: summoner.id,
+      //     region: "KR",
+      //   })
+      //   .catch(() => {
+      //     return undefined;
+      //   });
+
+      return {
+        account: account,
+        summoner: summoner,
+        spectator: spectator,
+        // league: league,
+      };
     },
   });
 
   useEffect(() => {
+    // if (isLoading) return;
+    if (data === undefined) return;
     refetch();
-  }, [location]);
+  }, [location, data, refetch]);
 
   useLayoutEffect(() => {
-    if (isLoading) return;
-    if (data !== undefined) setAccount({ puuid: data?.account.puuid });
-  }, [data, isLoading]);
+    if (data === undefined) return;
+    setAccount({ puuid: data?.account.puuid, summonerId: data.summoner.id });
+  }, [data, setAccount]);
 
   // const [summonerCookie, setSummonerCookie] = useCookies(["summonerHistory"]);
   // const [summonerHistory, setSummonerHistory] = useSummonerHistory();
@@ -103,18 +135,21 @@ function Summoner() {
   //   });
   // }, [routerParam.summonerName, setNavigatedSummonerPuuid]);
 
-  if (isLoading) return <></>;
-  if (data?.account.puuid === undefined) return <></>;
-
+  if (isLoading) return <>로딩</>;
+  if (data?.account.puuid === undefined) return <>알수없는 사용자입니다.</>;
   return (
     <div className="flex flex-col gap-7">
       <Profile
-        summonerName={data?.summoner.name}
+        summonerName={data?.account.gameName}
         profileIconId={data?.summoner.profileIconId}
         puuid={data?.summoner.puuid}
         level={data?.summoner.summonerLevel}
       />
-      <CurrentGame />
+      {data.spectator === undefined ? (
+        <></>
+      ) : (
+        <CurrentGame spectator={data.spectator} />
+      )}
       <Matches />
     </div>
   );

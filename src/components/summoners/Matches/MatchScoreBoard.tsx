@@ -85,7 +85,7 @@ function MatchScoreBoard(props: {
             <th className="w-16">어시스트</th>
             <th className="w-16">
               {props.participant.individualPosition === "UTILITY"
-                ? "와드"
+                ? "시야"
                 : "CS"}
             </th>
           </tr>
@@ -139,7 +139,11 @@ function MatchScoreBoard(props: {
             <td colSpan={3}>
               <div className="flex gap-3 justify-center">
                 <div>{`평점 ${
-                  isNaN(killAverage) ? 0 : killAverage.toFixed(2)
+                  isNaN(killAverage)
+                    ? 0
+                    : isFinite(killAverage)
+                    ? killAverage.toFixed(2)
+                    : "Perfect"
                 }`}</div>
                 <div>{`킬관여 ${isNaN(killEngage) ? 0 : killEngage}%`}</div>
               </div>
