@@ -46,77 +46,6 @@ paths:
                 $ref: "#/components/schemas/Account"
       tags:
         - Account
-  /potg/lol/summoner/by-puuid/{puuid}:
-    get:
-      operationId: getSummonerByPuuid
-      summary: ""
-      parameters:
-        - name: puuid
-          required: true
-          in: path
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: query
-          schema:
-            enum:
-              - BR1
-              - EUN1
-              - EUW1
-              - JP1
-              - KR
-              - LA1
-              - LA2
-              - NA1
-              - OC1
-              - PH2
-              - RU
-              - SG2
-              - TH2
-              - TR1
-              - TW2
-              - VN2
-            type: string
-      responses:
-        "200":
-          description: ""
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Summoner"
-      tags:
-        - Summoner
-  /potg/lol/matches/by-puuid/{puuid}:
-    get:
-      operationId: getMatch
-      summary: ""
-      parameters:
-        - name: puuid
-          required: true
-          in: path
-          schema:
-            type: string
-        - name: count
-          required: true
-          in: path
-          schema:
-            type: number
-        - name: region
-          required: true
-          in: query
-          schema:
-            enum:
-              - AMERICAS
-              - ASIA
-              - EUROPE
-              - SEA
-            type: string
-      responses:
-        "200":
-          description: ""
-      tags:
-        - Match
   /potg/lol/request/by-puuid:
     post:
       operationId: requestByPuuid
@@ -196,6 +125,77 @@ paths:
           description: ""
       tags:
         - Request
+  /potg/lol/summoner/by-puuid/{puuid}:
+    get:
+      operationId: getSummonerByPuuid
+      summary: ""
+      parameters:
+        - name: puuid
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Summoner"
+      tags:
+        - Summoner
+  /potg/lol/matches/by-puuid/{puuid}:
+    get:
+      operationId: getMatch
+      summary: ""
+      parameters:
+        - name: puuid
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: count
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - AMERICAS
+              - ASIA
+              - EUROPE
+              - SEA
+            type: string
+      responses:
+        "200":
+          description: ""
+      tags:
+        - Match
   /potg/lol/league/by-summoner/{id}:
     get:
       operationId: getLeague
@@ -237,6 +237,53 @@ paths:
                 $ref: "#/components/schemas/League"
       tags:
         - League
+  /potg/lol/spectator/by-summoner:
+    get:
+      operationId: getSpectator
+      summary: ""
+      parameters:
+        - name: summonerId
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentGameInfo"
+        "404":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusDto"
+      tags:
+        - Spectator
 info:
   title: POTG
   description: POTG RestAPI Document
@@ -309,3 +356,131 @@ components:
         - id
         - puuid
         - summonerLevel
+    BannedChampion:
+      type: object
+      properties:
+        pickTurn:
+          type: number
+        championId:
+          type: number
+        teamId:
+          type: number
+      required:
+        - pickTurn
+        - championId
+        - teamId
+    Observer:
+      type: object
+      properties:
+        encryptionKey:
+          type: string
+      required:
+        - encryptionKey
+    Perks:
+      type: object
+      properties:
+        perkIds:
+          type: array
+          items:
+            type: string
+        perkStyle:
+          type: number
+        perkSubStyle:
+          type: number
+      required:
+        - perkIds
+        - perkStyle
+        - perkSubStyle
+    GameCustomizationObject:
+      type: object
+      properties:
+        category:
+          type: string
+        content:
+          type: string
+      required:
+        - category
+        - content
+    CurrentGameParticipant:
+      type: object
+      properties:
+        championId:
+          type: number
+        perks:
+          $ref: "#/components/schemas/Perks"
+        profileIconId:
+          type: number
+        bot:
+          type: boolean
+        teamId:
+          type: number
+        summonerName:
+          type: string
+        summonerId:
+          type: string
+        puuid:
+          type: string
+        spell1Id:
+          type: number
+        spell2Id:
+          type: number
+        gameCustomizationObjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/GameCustomizationObject"
+      required:
+        - championId
+        - perks
+        - profileIconId
+        - bot
+        - teamId
+        - summonerName
+        - summonerId
+        - puuid
+        - spell1Id
+        - spell2Id
+        - gameCustomizationObjects
+    CurrentGameInfo:
+      type: object
+      properties:
+        gameId:
+          type: number
+        gameType:
+          type: string
+        gameStartTime:
+          type: number
+        mapId:
+          type: number
+        gameLength:
+          type: number
+        platformId:
+          type: string
+        gameMode:
+          type: string
+        bannedChampions:
+          type: array
+          items:
+            $ref: "#/components/schemas/BannedChampion"
+        gameQueueConfigId:
+          type: number
+        observers:
+          $ref: "#/components/schemas/Observer"
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/CurrentGameParticipant"
+      required:
+        - gameId
+        - gameType
+        - gameStartTime
+        - mapId
+        - gameLength
+        - platformId
+        - gameMode
+        - bannedChampions
+        - gameQueueConfigId
+        - observers
+        - participants
+    StatusDto:
+      type: object
+      properties: {}
