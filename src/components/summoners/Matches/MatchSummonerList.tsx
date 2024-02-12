@@ -22,8 +22,9 @@ function MatchSummonerList() {
           grid-row-gap: 2px;
         `}
       >
-        {participants.map((participant) => (
+        {participants.map((participant, index) => (
           <SummonerItem
+            key={index}
             championName={participant.championName}
             riotIdGameName={participant.riotIdGameName}
             riotIdTagline={participant.riotIdTagline}

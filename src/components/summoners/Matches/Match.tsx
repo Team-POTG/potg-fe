@@ -13,7 +13,6 @@ export const ParticipantsContext = createContext<ParticipantDto[]>([]);
 
 function Match(props: { match: MatchDto; index: number }) {
   const account = useRecoilValue(accountState);
-
   const navigatedSummonerParticipant = props.match.info.participants.filter(
     (summoenr) => summoenr.puuid === account.puuid
   )[0];

@@ -1,78 +1,19 @@
-import { createContext, useEffect } from "react";
 import GameTypeCategory from "./GameTypeCategory";
 import Analytic from "./Analytic";
 import { gql, useQuery } from "@apollo/client";
 import { MatchDto } from "../../../gql/graphql";
 import Match from "./Match";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { accountState } from "../../../recoil/navigate/atom";
-import { matchesState } from "../../../recoil/match/atom";
+import useFetch from "../../../hooks/useFetch";
+import { useEffect, useState } from "react";
 
-function Matches() {
-  const account = useRecoilValue(accountState);
+interface Props {
+  matches: MatchDto[] | undefined;
+}
 
-  const { loading, error, data, refetch } = useQuery<{
-    getMatch: MatchDto[];
-  }>(gql`
-    query {
-      getMatch(
-        puuid: "${account.puuid}"
-        count: 20
-      ) {
-        info {
-          gameCreation
-          queueId
-          gameDuration
-          teams {
-            bans {
-              championId
-              pickTurn
-            }
-            objectives {
-              champion {
-                kills
-              }
-            }
-            win
-            teamId
-          }
-          participants {
-            puuid
-            championName
-            championId
-            summonerName
-            riotIdGameName
-            riotIdTagline
-            teamId
-            item0
-            item1
-            item2
-            item3
-            item4
-            item5
-            item6
-            kills
-            deaths
-            assists
-            wardsPlaced
-            wardsKilled
-            detectorWardsPlaced
-            visionScore
-            totalMinionsKilled
-            neutralMinionsKilled
-            individualPosition
-            win
-          }
-        }
-      }
-    }`);
-
-  // useEffect(() => {
-  //   refetch();
-  // }, [location]);
-
-  if (loading) return <></>;
-  if (data === undefined) return <>전적 기록이 존재하지 않습니다.</>;
+function Matches(props: Props) {
+  const fetch = useFetch();
 
   return (
     <div className="flex flex-col gap-5 text-slate-600">
@@ -84,8 +25,8 @@ function Matches() {
       <GameTypeCategory />
       <Analytic />
       <div className="flex flex-col gap-2">
-        {data?.getMatch
-          .slice()
+        {fetch?.matches.data
+          ?.slice()
           .sort(
             (prevMatch, currentMatch) =>
               currentMatch.info.gameCreation - prevMatch.info.gameCreation

@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const accountState = atom({
   key: "accountState",
-  default: { puuid: "", summonerId: "" },
+  default: { puuid: "", summonerId: "", gameName: "", tagLine: "" },
 });
 
 export const regionState = atom({

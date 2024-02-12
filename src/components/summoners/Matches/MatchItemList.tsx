@@ -24,9 +24,8 @@ function MatchItemList(props: { items: Inventory }) {
 
   return (
     <div className="grid grid-cols-4 gap-1">
-      {}
-      {sortedInventory.map((itemId) => {
-        return <Item itemId={itemId} />;
+      {sortedInventory.map((itemId, index) => {
+        return <Item itemId={itemId} key={index} />;
       })}
     </div>
   );
