@@ -4,11 +4,11 @@ import { css } from "@emotion/css";
 import Search_Button from "../../../images/search_button.png";
 import { fontSize } from "../../../styles/font";
 import { useNavigate } from "react-router";
-import { Summary } from "./ProfileSummary";
 import { AutocompleteApi } from "../../../models";
 import { RiotId } from "../../../tools/riotId";
 import { debounce } from "lodash";
 import { SummonerDto } from "../../../models/models/SummonerDto";
+import { ProfileSummary } from "./ProfileSummary";
 
 const styles = {
   self: css`
@@ -118,7 +118,7 @@ function Search() {
       {riotId ? (
         <div className="flex flex-col gap-1 sm:pb-2 md:px-4 md:pb-6 pb-2">
           {summaryList.map((summoner) => (
-            <Summary
+            <ProfileSummary
               summonerIcon={summoner.profileIconId}
               summonerName={summoner.name}
             />
