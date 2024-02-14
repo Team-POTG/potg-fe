@@ -276,14 +276,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CurrentGameInfo"
-        "404":
+      tags:
+        - Spectator
+  /autocomplete/potg/common/autocomplete/by-riot-id:
+    get:
+      operationId: getAutocompleteByRiotId
+      summary: ""
+      parameters:
+        - name: tagLine
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: gameName
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/StatusDto"
+                type: array
+                items:
+                  $ref: "#/components/schemas/SummonerDto"
       tags:
-        - Spectator
+        - Autocomplete
 info:
   title: POTG
   description: POTG RestAPI Document
@@ -481,6 +501,28 @@ components:
         - gameQueueConfigId
         - observers
         - participants
-    StatusDto:
+    SummonerDto:
       type: object
-      properties: {}
+      properties:
+        accountId:
+          type: string
+        profileIconId:
+          type: number
+        revisionDate:
+          type: number
+        name:
+          type: string
+        id:
+          type: string
+        puuid:
+          type: string
+        summonerLevel:
+          type: number
+      required:
+        - accountId
+        - profileIconId
+        - revisionDate
+        - name
+        - id
+        - puuid
+        - summonerLevel

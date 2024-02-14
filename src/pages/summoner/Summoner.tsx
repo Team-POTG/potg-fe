@@ -18,11 +18,12 @@ function Summoner() {
   useEffect(() => {
     fetch?.matches.refetch();
     fetch?.riot.refetch();
-  }, [location]);
+  }, [location, fetch]);
 
   // if (fetch?.riot) return <>로딩</>;
   // if (fetch?.riot.data?.account.puuid === undefined)
   // return <>알수없는 사용자입니다.</>;
+  if (fetch?.isLoading) <></>;
   return (
     <div className="flex flex-col gap-7">
       <Profile

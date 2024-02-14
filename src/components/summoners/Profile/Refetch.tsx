@@ -24,14 +24,16 @@ function Refetch() {
     <button
       className={styles.self}
       onClick={async () => {
-        await new RequestApi().requestByTagLineWithGameName({
-          tagLine: account.tagLine,
-          gameName: account.gameName,
-          region: "KR",
-        });
-
-        fetch?.riot.refetch();
-        fetch?.matches.refetch();
+        await new RequestApi()
+          .requestByTagLineWithGameName({
+            tagLine: account.tagLine,
+            gameName: account.gameName,
+            region: "KR",
+          })
+          .then(() => {
+            fetch?.riot.refetch();
+            fetch?.matches.refetch();
+          });
       }}
     >
       전적 갱신

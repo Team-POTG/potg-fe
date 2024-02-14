@@ -9,3 +9,4 @@ export * from './League';
 export * from './Observer';
 export * from './Perks';
 export * from './Summoner';
+export * from './SummonerDto';

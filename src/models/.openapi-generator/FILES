@@ -1,4 +1,5 @@
 apis/AccountApi.ts
+apis/AutocompleteApi.ts
 apis/LeagueApi.ts
 apis/MatchApi.ts
 apis/RequestApi.ts
@@ -15,5 +16,6 @@ models/League.ts
 models/Observer.ts
 models/Perks.ts
 models/Summoner.ts
+models/SummonerDto.ts
 models/index.ts
 runtime.ts

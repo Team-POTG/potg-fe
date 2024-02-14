@@ -47,23 +47,18 @@ interface FetchData {
 }
 
 export default function useFetch() {
-  const locationRef = useRef<Location>();
   const location = useLocation();
   const [, setAccount] = useRecoilState(accountState);
   // const [fetch, setFetch] = useState<FetchData | undefined>();
 
-  useEffect(() => {
-    locationRef.current = location;
-  }, [location]);
-
   const riot = tanstackQuery.useQuery({
     queryKey: ["summonerData"],
     queryFn: async () => {
-      if (locationRef.current === undefined) return;
+      if (location === undefined) return;
 
       const account = await new AccountApi()
         .getAccountByGameNameWithTagLine({
-          tagLine: locationRef.current.hash.replace("#", ""),
+          tagLine: location.hash.replace("#", ""),
           gameName: decodeURI(location.pathname.replace("/", "")),
           region: "KR",
         })
@@ -92,20 +87,20 @@ export default function useFetch() {
           return undefined;
         });
 
-      const league = await new LeagueApi()
-        .getLeague({
-          id: summoner.id,
-          region: "KR",
-        })
-        .catch(() => {
-          return undefined;
-        });
+      // const league = await new LeagueApi()
+      //   .getLeague({
+      //     id: summoner.id,
+      //     region: "KR",
+      //   })
+      //   .catch(() => {
+      //     return undefined;
+      //   });
 
       return {
         account: account,
         summoner: summoner,
         spectator: spectator,
-        league: league,
+        // league: league,
       };
     },
   });
@@ -186,16 +181,9 @@ export default function useFetch() {
         data: matches.data?.getMatch,
         refetch: () => matches.refetch(),
       },
+      isLoading: riot.isLoading || matches.loading,
     };
-  }, [
-    matches.data?.getMatch,
-    matches.error,
-    matches.loading,
-    riot.data,
-    riot.error,
-    riot.isLoading,
-    setAccount,
-  ]);
+  }, [riot.data, matches.data, location]);
 
   return fetch;
 }

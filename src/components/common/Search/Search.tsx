@@ -1,9 +1,14 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { responsive } from "../../../styles/screen";
 import { css } from "@emotion/css";
 import Search_Button from "../../../images/search_button.png";
 import { fontSize } from "../../../styles/font";
 import { useNavigate } from "react-router";
+import { Summary } from "./ProfileSummary";
+import { AutocompleteApi } from "../../../models";
+import { RiotId } from "../../../tools/riotId";
+import { debounce } from "lodash";
+import { SummonerDto } from "../../../models/models/SummonerDto";
 
 const styles = {
   self: css`
@@ -56,8 +61,24 @@ const styles = {
 
 function Search() {
   const [isFocused, setIsFocused] = useState(false);
-  const riotId = useRef("");
+  const [riotId, setRiotid] = useState("");
   const navigate = useNavigate();
+  const [summaryList, setSummaryList] = useState<SummonerDto[]>([]);
+
+  const debounceSearch = useMemo(
+    () =>
+      debounce((riotId) => {
+        const inputRiotId = new RiotId(riotId).separate();
+
+        new AutocompleteApi()
+          .getAutocompleteByRiotId({
+            tagLine: inputRiotId.tagLine,
+            gameName: inputRiotId.gameName,
+          })
+          .then((summoner) => setSummaryList(summoner));
+      }, 100),
+    []
+  );
 
   return (
     <div
@@ -82,10 +103,11 @@ function Search() {
           type="text"
           placeholder="소환사 명(소환사명#tag)을 입력해주세요"
           onChange={(value) => {
-            riotId.current = value.target.value;
+            debounceSearch(value.target.value);
+            setRiotid(value.target.value);
           }}
           onKeyDown={(key) => {
-            if (key.key === "Enter") navigate(`/${riotId.current}`);
+            if (key.key === "Enter") navigate(`/${riotId}`);
           }}
         />
 
@@ -93,7 +115,18 @@ function Search() {
           <img src={Search_Button} alt="search" />
         </button>
       </div>
-      {isFocused ? <></> : <></>}
+      {riotId ? (
+        <div className="flex flex-col gap-1 sm:pb-2 md:px-4 md:pb-6 pb-2">
+          {summaryList.map((summoner) => (
+            <Summary
+              summonerIcon={summoner.profileIconId}
+              summonerName={summoner.name}
+            />
+          ))}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
