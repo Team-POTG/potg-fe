@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { responsive } from "../../../styles/screen";
 import { css } from "@emotion/css";
 import Search_Button from "../../../images/search_button.png";
@@ -7,8 +7,9 @@ import { useNavigate } from "react-router";
 import { AutocompleteApi } from "../../../models";
 import { RiotId } from "../../../tools/riotId";
 import { debounce } from "lodash";
-import { SummonerDto } from "../../../models/models/SummonerDto";
 import { ProfileSummary } from "./ProfileSummary";
+import { AutocompleteDto } from "../../../models/models/AutocompleteDto";
+import { SortedRank, SortedTier } from "./rankedTier";
 
 const styles = {
   self: css`
@@ -63,7 +64,7 @@ function Search() {
   const [isFocused, setIsFocused] = useState(false);
   const [riotId, setRiotid] = useState("");
   const navigate = useNavigate();
-  const [summaryList, setSummaryList] = useState<SummonerDto[]>([]);
+  const [summaryList, setSummaryList] = useState<AutocompleteDto[]>([]);
 
   const debounceSearch = useMemo(
     () =>
@@ -76,7 +77,10 @@ function Search() {
             gameName: inputRiotId.gameName,
             limit: 5,
           })
-          .then((summoner) => setSummaryList(summoner));
+          .then((summoner) => {
+            console.log(summoner);
+            setSummaryList(summoner);
+          });
       }, 100),
     []
   );
@@ -118,12 +122,21 @@ function Search() {
       </div>
       {riotId ? (
         <div className="flex flex-col gap-1 sm:pb-2 md:px-4 md:pb-6 pb-2">
-          {summaryList.map((summoner) => (
-            <ProfileSummary
-              summonerIcon={summoner.profileIconId}
-              summonerName={summoner.name}
-            />
-          ))}
+          {summaryList
+            .sort((a, b) => b.leaguePoint - a.leaguePoint)
+            .sort(
+              (a, b) =>
+                SortedRank[a.rank as keyof typeof SortedRank] -
+                SortedRank[b.rank as keyof typeof SortedRank]
+            )
+            .sort(
+              (a, b) =>
+                SortedTier[a.tier as keyof typeof SortedTier] -
+                SortedTier[b.tier as keyof typeof SortedTier]
+            )
+            .map((summoner) => (
+              <ProfileSummary autocomplete={summoner} />
+            ))}
         </div>
       ) : (
         <></>

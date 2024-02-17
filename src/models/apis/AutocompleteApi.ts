@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  SummonerDto,
+  AutocompleteDto,
 } from '../models/index';
 import {
-    SummonerDtoFromJSON,
-    SummonerDtoToJSON,
+    AutocompleteDtoFromJSON,
+    AutocompleteDtoToJSON,
 } from '../models/index';
 
 export interface GetAutocompleteByRiotIdRequest {
@@ -36,7 +36,7 @@ export class AutocompleteApi extends runtime.BaseAPI {
     /**
      * 
      */
-    async getAutocompleteByRiotIdRaw(requestParameters: GetAutocompleteByRiotIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SummonerDto>>> {
+    async getAutocompleteByRiotIdRaw(requestParameters: GetAutocompleteByRiotIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AutocompleteDto>>> {
         if (requestParameters.gameName === null || requestParameters.gameName === undefined) {
             throw new runtime.RequiredError('gameName','Required parameter requestParameters.gameName was null or undefined when calling getAutocompleteByRiotId.');
         }
@@ -68,13 +68,13 @@ export class AutocompleteApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SummonerDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AutocompleteDtoFromJSON));
     }
 
     /**
      * 
      */
-    async getAutocompleteByRiotId(requestParameters: GetAutocompleteByRiotIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SummonerDto>> {
+    async getAutocompleteByRiotId(requestParameters: GetAutocompleteByRiotIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AutocompleteDto>> {
         const response = await this.getAutocompleteByRiotIdRaw(requestParameters, initOverrides);
         return await response.value();
     }

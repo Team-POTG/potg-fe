@@ -308,7 +308,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/SummonerDto"
+                  $ref: "#/components/schemas/AutocompleteDto"
       tags:
         - Autocomplete
 info:
@@ -545,28 +545,28 @@ components:
         - gameQueueConfigId
         - observers
         - participants
-    SummonerDto:
+    AutocompleteDto:
       type: object
       properties:
-        accountId:
+        gameName:
+          type: string
+        tagLine:
           type: string
         profileIconId:
           type: number
-        revisionDate:
-          type: number
-        name:
-          type: string
-        id:
-          type: string
-        puuid:
-          type: string
         summonerLevel:
           type: number
+        tier:
+          type: string
+        rank:
+          type: string
+        leaguePoint:
+          type: number
       required:
-        - accountId
+        - gameName
+        - tagLine
         - profileIconId
-        - revisionDate
-        - name
-        - id
-        - puuid
         - summonerLevel
+        - tier
+        - rank
+        - leaguePoint

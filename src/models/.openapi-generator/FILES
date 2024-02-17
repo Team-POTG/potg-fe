@@ -8,6 +8,7 @@ apis/SummonerApi.ts
 apis/index.ts
 index.ts
 models/Account.ts
+models/AutocompleteDto.ts
 models/BannedChampion.ts
 models/CurrentGameInfo.ts
 models/CurrentGameParticipant.ts
@@ -17,6 +18,5 @@ models/MiniSeriesDto.ts
 models/Observer.ts
 models/Perks.ts
 models/Summoner.ts
-models/SummonerDto.ts
 models/index.ts
 runtime.ts
