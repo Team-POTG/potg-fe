@@ -12,7 +12,8 @@ models/BannedChampion.ts
 models/CurrentGameInfo.ts
 models/CurrentGameParticipant.ts
 models/GameCustomizationObject.ts
-models/League.ts
+models/LeagueEntryDto.ts
+models/MiniSeriesDto.ts
 models/Observer.ts
 models/Perks.ts
 models/Summoner.ts

@@ -1,14 +1,8 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Profile from "../../components/summoners/Profile/Profile";
 import Matches from "../../components/summoners/Matches/Matches";
 import CurrentGame from "../../components/summoners/CurrentGame/CurrentGame";
-import { useQuery } from "@tanstack/react-query";
-import { AccountApi } from "../../models/apis/AccountApi";
-import { LeagueApi, SummonerApi } from "../../models";
-import { useRecoilState } from "recoil";
-import { accountState } from "../../recoil/navigate/atom";
-import { SpectatorApi } from "../../models/apis/SpectatorApi";
 import useFetch from "../../hooks/useFetch";
 
 function Summoner() {

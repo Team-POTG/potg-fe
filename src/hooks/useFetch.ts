@@ -6,7 +6,6 @@ import {
   LeagueApi,
   Account,
   CurrentGameInfo,
-  League,
   Summoner,
 } from "../models";
 import * as graphql from "@apollo/client";
@@ -15,6 +14,7 @@ import { Location, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { accountState } from "../recoil/navigate/atom";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { LeagueEntryDto } from "../models/models/LeagueEntryDto";
 
 // type TanstackQueryData = tanstackQuery.UseQueryResult<
 //   | {
@@ -40,7 +40,7 @@ interface FetchData {
         account: Account;
         summoner: Summoner;
         spectator: CurrentGameInfo | undefined;
-        league: League | undefined;
+        league: LeagueEntryDto[] | undefined;
       }
     | undefined;
   matches: MatchDto[] | undefined;
@@ -87,20 +87,20 @@ export default function useFetch() {
           return undefined;
         });
 
-      // const league = await new LeagueApi()
-      //   .getLeague({
-      //     id: summoner.id,
-      //     region: "KR",
-      //   })
-      //   .catch(() => {
-      //     return undefined;
-      //   });
+      const league = await new LeagueApi()
+        .getLeague({
+          id: summoner.id,
+          region: "KR",
+        })
+        .catch(() => {
+          return undefined;
+        });
 
       return {
         account: account,
         summoner: summoner,
         spectator: spectator,
-        // league: league,
+        league: league,
       };
     },
   });
@@ -111,7 +111,7 @@ export default function useFetch() {
     query {
       getMatch(
         puuid: "${riot.data?.account.puuid}"
-        count: 20
+        limit: 20
       ) {
         info {
           gameCreation

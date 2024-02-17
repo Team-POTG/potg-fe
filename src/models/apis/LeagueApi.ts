@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  League,
+  LeagueEntryDto,
 } from '../models/index';
 import {
-    LeagueFromJSON,
-    LeagueToJSON,
+    LeagueEntryDtoFromJSON,
+    LeagueEntryDtoToJSON,
 } from '../models/index';
 
 export interface GetLeagueRequest {
@@ -35,7 +35,7 @@ export class LeagueApi extends runtime.BaseAPI {
     /**
      * 
      */
-    async getLeagueRaw(requestParameters: GetLeagueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<League>> {
+    async getLeagueRaw(requestParameters: GetLeagueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<LeagueEntryDto>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getLeague.');
         }
@@ -59,13 +59,13 @@ export class LeagueApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => LeagueFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(LeagueEntryDtoFromJSON));
     }
 
     /**
      * 
      */
-    async getLeague(requestParameters: GetLeagueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<League> {
+    async getLeague(requestParameters: GetLeagueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<LeagueEntryDto>> {
         const response = await this.getLeagueRaw(requestParameters, initOverrides);
         return await response.value();
     }

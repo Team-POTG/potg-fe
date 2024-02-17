@@ -74,6 +74,7 @@ function Search() {
           .getAutocompleteByRiotId({
             tagLine: inputRiotId.tagLine,
             gameName: inputRiotId.gameName,
+            limit: 5,
           })
           .then((summoner) => setSummaryList(summoner));
       }, 100),

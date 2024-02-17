@@ -24,6 +24,7 @@ import {
 
 export interface GetAutocompleteByRiotIdRequest {
     gameName: string;
+    limit: number;
     tagLine?: string;
 }
 
@@ -40,6 +41,10 @@ export class AutocompleteApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('gameName','Required parameter requestParameters.gameName was null or undefined when calling getAutocompleteByRiotId.');
         }
 
+        if (requestParameters.limit === null || requestParameters.limit === undefined) {
+            throw new runtime.RequiredError('limit','Required parameter requestParameters.limit was null or undefined when calling getAutocompleteByRiotId.');
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters.tagLine !== undefined) {
@@ -48,6 +53,10 @@ export class AutocompleteApi extends runtime.BaseAPI {
 
         if (requestParameters.gameName !== undefined) {
             queryParameters['gameName'] = requestParameters.gameName;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

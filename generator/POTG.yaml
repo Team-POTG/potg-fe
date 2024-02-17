@@ -125,6 +125,49 @@ paths:
           description: ""
       tags:
         - Request
+  /potg/lol/league/by-summoner/{id}:
+    get:
+      operationId: getLeague
+      summary: ""
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeagueEntryDto"
+      tags:
+        - League
   /potg/lol/summoner/by-puuid/{puuid}:
     get:
       operationId: getSummonerByPuuid
@@ -196,47 +239,6 @@ paths:
           description: ""
       tags:
         - Match
-  /potg/lol/league/by-summoner/{id}:
-    get:
-      operationId: getLeague
-      summary: ""
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-        - name: region
-          required: true
-          in: query
-          schema:
-            enum:
-              - BR1
-              - EUN1
-              - EUW1
-              - JP1
-              - KR
-              - LA1
-              - LA2
-              - NA1
-              - OC1
-              - PH2
-              - RU
-              - SG2
-              - TH2
-              - TR1
-              - TW2
-              - VN2
-            type: string
-      responses:
-        "200":
-          description: ""
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/League"
-      tags:
-        - League
   /potg/lol/spectator/by-summoner:
     get:
       operationId: getSpectator
@@ -293,6 +295,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: limit
+          required: true
+          in: query
+          schema:
+            type: number
       responses:
         "200":
           description: ""
@@ -326,32 +333,69 @@ components:
         - puuid
         - gameName
         - tagLine
-    Summoner:
+    MiniSeriesDto:
       type: object
       properties:
-        accountId:
-          type: string
-        profileIconId:
+        losses:
           type: number
-        revisionDate:
+        progress:
+          type: string
+        target:
           type: number
-        name:
-          type: string
-        id:
-          type: string
-        puuid:
-          type: string
-        summonerLevel:
+        wins:
           type: number
       required:
-        - accountId
-        - profileIconId
-        - revisionDate
-        - name
-        - id
-        - puuid
-        - summonerLevel
-    League:
+        - losses
+        - progress
+        - target
+        - wins
+    LeagueEntryDto:
+      type: object
+      properties:
+        leagueId:
+          type: string
+        summonerId:
+          type: string
+        summonerName:
+          type: string
+        queueType:
+          type: string
+        tier:
+          type: string
+        rank:
+          type: string
+        leaguePoints:
+          type: number
+        wins:
+          type: number
+        losses:
+          type: number
+        hotStreak:
+          type: boolean
+        veteran:
+          type: boolean
+        freshBlood:
+          type: boolean
+        inactive:
+          type: boolean
+        miniSeries:
+          $ref: "#/components/schemas/MiniSeriesDto"
+      required:
+        - leagueId
+        - summonerId
+        - summonerName
+        - queueType
+        - tier
+        - rank
+        - leaguePoints
+        - wins
+        - losses
+        - hotStreak
+        - veteran
+        - freshBlood
+        - inactive
+        - miniSeries
+    Summoner:
       type: object
       properties:
         accountId:
