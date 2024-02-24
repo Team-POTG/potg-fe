@@ -24,6 +24,12 @@ export interface AutocompleteDto {
      * @type {string}
      * @memberof AutocompleteDto
      */
+    puuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AutocompleteDto
+     */
     gameName: string;
     /**
      * 
@@ -68,6 +74,7 @@ export interface AutocompleteDto {
  */
 export function instanceOfAutocompleteDto(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "puuid" in value;
     isInstance = isInstance && "gameName" in value;
     isInstance = isInstance && "tagLine" in value;
     isInstance = isInstance && "profileIconId" in value;
@@ -89,6 +96,7 @@ export function AutocompleteDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
+        'puuid': json['puuid'],
         'gameName': json['gameName'],
         'tagLine': json['tagLine'],
         'profileIconId': json['profileIconId'],
@@ -108,6 +116,7 @@ export function AutocompleteDtoToJSON(value?: AutocompleteDto | null): any {
     }
     return {
         
+        'puuid': value.puuid,
         'gameName': value.gameName,
         'tagLine': value.tagLine,
         'profileIconId': value.profileIconId,

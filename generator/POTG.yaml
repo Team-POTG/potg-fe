@@ -548,6 +548,8 @@ components:
     AutocompleteDto:
       type: object
       properties:
+        puuid:
+          type: string
         gameName:
           type: string
         tagLine:
@@ -563,6 +565,7 @@ components:
         leaguePoint:
           type: number
       required:
+        - puuid
         - gameName
         - tagLine
         - profileIconId
