@@ -1,24 +1,31 @@
-import { useCookies } from "react-cookie";
+import { AutocompleteDto } from "../models/models/AutocompleteDto";
 
-type summoner = {
-  name: string;
-  level: number;
-  rank: number;
-  tier: number;
-  icon: number;
-};
+export default function useSummonerHistory(): {
+  history: AutocompleteDto[];
+  addSummonerHistory: (summonerData: AutocompleteDto) => void;
+} {
+  return {
+    history: JSON.parse(localStorage.getItem("history") ?? "[]"),
+    addSummonerHistory: (summonerData) => {
+      const history = localStorage.getItem("history") ?? "[]";
+      const historyList: AutocompleteDto[] = JSON.parse(history);
+      const foundSummonerIndex = historyList.findIndex(
+        (value) => value.puuid === summonerData.puuid
+      );
 
-export default function useSummonerHistory(): [
-  any,
-  (summonerName: summoner) => void
-] {
-  const [cookie, setCookie, removeCookie] = useCookies(["summonerHistory"]);
-  // console.log(cookie.summonerHistory);
+      if (foundSummonerIndex === -1) {
+        if (historyList.length < 5) {
+          historyList.unshift(summonerData);
+        } else {
+          historyList.pop();
+          historyList.unshift(summonerData);
+        }
+      } else if (foundSummonerIndex > -1) {
+        historyList.splice(foundSummonerIndex, 1);
+        historyList.unshift(summonerData);
+      }
 
-  return [
-    cookie,
-    () => {
-      setCookie("summonerHistory", "a");
+      localStorage.setItem("history", JSON.stringify(historyList));
     },
-  ];
+  };
 }

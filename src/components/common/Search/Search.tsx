@@ -10,6 +10,7 @@ import { debounce } from "lodash";
 import { ProfileSummary } from "./ProfileSummary";
 import { AutocompleteDto } from "../../../models/models/AutocompleteDto";
 import { SortedRank, SortedTier } from "./rankedTier";
+import useSummonerHistory from "../../../hooks/useSummonerHistory";
 
 const styles = {
   self: css`
@@ -46,6 +47,18 @@ const styles = {
       })}
     `,
 
+    summary: css`
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      ${responsive({
+        paddingBottom: ["8px", "16px"],
+        paddingLeft: ["8px", "16px"],
+        paddingRight: ["8px", "16px"],
+      })}
+    `,
+
     button: css`
       cursor: pointer;
       margin-right: 20px;
@@ -61,10 +74,11 @@ const styles = {
 };
 
 function Search() {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isInputFocused, setInputFocused] = useState(false);
   const [riotId, setRiotid] = useState("");
   const navigate = useNavigate();
   const [summaryList, setSummaryList] = useState<AutocompleteDto[]>([]);
+  const { history } = useSummonerHistory();
 
   const debounceSearch = useMemo(
     () =>
@@ -78,7 +92,6 @@ function Search() {
             limit: 5,
           })
           .then((summoner) => {
-            console.log(summoner);
             setSummaryList(summoner);
           });
       }, 100),
@@ -88,17 +101,18 @@ function Search() {
   return (
     <div
       className={css`
-        box-shadow: ${isFocused ? "1px 1px 30px #ff88004d" : ""};
+        box-shadow: ${isInputFocused ? "1px 1px 30px #ff88004d" : ""};
+
         ${styles.self}
       `}
     >
       <div
         className={styles.search.div}
         onFocus={() => {
-          setIsFocused(true);
+          setInputFocused(true);
         }}
         onBlur={() => {
-          setIsFocused(false);
+          setInputFocused(false);
         }}
       >
         {/* <Translate /> */}
@@ -120,8 +134,8 @@ function Search() {
           <img src={Search_Button} alt="search" />
         </button>
       </div>
-      {riotId ? (
-        <div className="flex flex-col gap-1 sm:pb-2 md:px-4 md:pb-6 pb-2">
+      {riotId && summaryList.length > 0 ? (
+        <div className={styles.search.summary}>
           {summaryList
             .sort((a, b) => b.leaguePoint - a.leaguePoint)
             .sort(
@@ -135,11 +149,21 @@ function Search() {
                 SortedTier[b.tier as keyof typeof SortedTier]
             )
             .map((summoner) => (
-              <ProfileSummary autocomplete={summoner} />
+              <ProfileSummary {...summoner} />
             ))}
         </div>
       ) : (
-        <></>
+        <>
+          {isInputFocused && history.length > 0 ? (
+            <div className={styles.search.summary}>
+              {history.map((summoner) => (
+                <ProfileSummary {...summoner} />
+              ))}
+            </div>
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </div>
   );

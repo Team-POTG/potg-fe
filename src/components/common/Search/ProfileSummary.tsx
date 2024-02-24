@@ -2,6 +2,7 @@ import { css } from "@emotion/css";
 import React, { useState } from "react";
 import { AutocompleteDto } from "../../../models/models/AutocompleteDto";
 import { Link, useNavigate } from "react-router-dom";
+import { responsive } from "../../../styles/screen";
 
 const styles = {
   self: css`
@@ -18,31 +19,53 @@ const styles = {
       background-color: #eeeeee;
     }
   `,
+
+  icon: css`
+    border-radius: 6px;
+
+    ${responsive({
+      width: ["20px", "28px", "40px"],
+    })}
+  `,
+
+  name: css`
+    font-weight: bold;
+
+    ${responsive({
+      fontSize: ["10px", "12px", "14px"],
+    })}
+  `,
+
+  rank: css`
+    ${responsive({
+      fontSize: ["8px", "10px", "12px"],
+    })}
+  `,
 };
 
-export function ProfileSummary(props: { autocomplete: AutocompleteDto }) {
+export function ProfileSummary(props: AutocompleteDto) {
   const navigate = useNavigate();
 
   return (
     <button
       className={styles.self}
       onClick={() => {
-        navigate(
-          `/${props.autocomplete.gameName}#${props.autocomplete.tagLine}`
-        );
+        navigate(`/${props.gameName}#${props.tagLine}`);
       }}
     >
       <img
-        className="sm:w-5 md:w-7 lg:w-10 w-5 rounded-md"
-        src={`http://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/${props.autocomplete.profileIconId}.png`}
+        className={styles.icon}
+        src={`http://ddragon.leagueoflegends.com/cdn/14.1.1/img/profileicon/${props.profileIconId}.png`}
         alt="icon"
       />
-      <p className="sm:text-[10px] md:text-xs lg:text-sm text-[10px] font-bold">
-        {`${props.autocomplete.gameName}#${props.autocomplete.tagLine}`}
-      </p>
-      <p className="sm:text-[8px] md:text-[10px] lg:text-[12px] text-[8px]">
-        {`${props.autocomplete.tier} - ${props.autocomplete.rank}(${props.autocomplete.leaguePoint}LP)`}
-      </p>
+      <p className={styles.name}>{`${props.gameName}#${props.tagLine}`}</p>
+      {props.tier === undefined ? (
+        <></>
+      ) : (
+        <p className={styles.rank}>
+          {`${props.tier} - ${props.rank}(${props.leaguePoint}LP)`}
+        </p>
+      )}
     </button>
   );
 }
