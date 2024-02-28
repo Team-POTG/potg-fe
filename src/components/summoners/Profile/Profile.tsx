@@ -1,12 +1,13 @@
 import Icon from "./Icon";
 import Level from "./Level";
 import Name from "./Name";
-import Tier from "./Tier";
 import RecentMatchRate from "./RecentMatchRate";
 import RecentUseChampion from "./RecentUseChampion";
 import Refetch from "./Refetch";
 import Favorite from "./Favorite";
 import { css } from "@emotion/css";
+import useFetch from "../../../hooks/useFetch";
+import Rank from "./Rank";
 
 interface Props {
   summonerName?: string;
@@ -16,23 +17,47 @@ interface Props {
 }
 
 const styles = {
+  self: css`
+    display: flex;
+    gap: 12px;
+  `,
   div: {
     function: css`
       width: 128px;
-      /* background-color: red; */
-      /* display: flex; */
-      /* width: 100%; */
-      /* flex: ; */
+    `,
+    profile: css`
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-color: white;
+      width: 208px;
+      justify-items: center;
+      place-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      box-shadow: 0px 0px 30px #f2f2f2;
+    `,
+    name: css`
+      display: flex;
+      gap: 4px;
+      height: fit-content;
+    `,
+    recentData: css`
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     `,
   },
 };
 
 function Profile(props: Props) {
+  const fetch = useFetch();
+
   return (
-    <div className="flex gap-3">
-      <div className="flex flex-col gap-2 bg-white h-64 w-52 justify-center place-items-center p-3 rounded-2xl shadow-box">
+    <div className={styles.self}>
+      <div className={styles.div.profile}>
         <Icon profileIconId={props?.profileIconId} />
-        <div className="flex gap-1 h-fit">
+        <div className={styles.div.name}>
           <Level level={props?.level} />
           <Name name={props?.summonerName} />
         </div>
@@ -43,9 +68,9 @@ function Profile(props: Props) {
         </div>
       </div>
       <div>
-        <Tier ranks={undefined} />
+        <Rank ranks={fetch?.riot.data.league} />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className={styles.div.recentData}>
         <RecentMatchRate />
         <RecentUseChampion />
       </div>
