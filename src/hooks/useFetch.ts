@@ -1,55 +1,15 @@
 import * as tanstackQuery from "@tanstack/react-query";
-import {
-  AccountApi,
-  SummonerApi,
-  SpectatorApi,
-  LeagueApi,
-  Account,
-  CurrentGameInfo,
-  Summoner,
-} from "../models";
+import { AccountApi, SummonerApi, SpectatorApi, LeagueApi } from "../models";
 import * as graphql from "@apollo/client";
 import { MatchDto } from "../gql/graphql";
-import { Location, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { accountState } from "../recoil/navigate/atom";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { LeagueEntryDto } from "../models/models/LeagueEntryDto";
-
-// type TanstackQueryData = tanstackQuery.UseQueryResult<
-//   | {
-//       account: Account;
-//       summoner: Summoner;
-//       spectator: CurrentGameInfo | undefined;
-//       league: League | undefined;
-//     }
-//   | undefined,
-//   Error
-// >;
-
-// type GraphQLData = graphql.QueryResult<
-//   {
-//     getMatch: MatchDto[];
-//   },
-//   graphql.OperationVariables
-// >;
-
-interface FetchData {
-  riot:
-    | {
-        account: Account;
-        summoner: Summoner;
-        spectator: CurrentGameInfo | undefined;
-        league: LeagueEntryDto[] | undefined;
-      }
-    | undefined;
-  matches: MatchDto[] | undefined;
-}
+import { useMemo } from "react";
 
 export default function useFetch() {
   const location = useLocation();
   const [, setAccount] = useRecoilState(accountState);
-  // const [fetch, setFetch] = useState<FetchData | undefined>();
 
   const riot = tanstackQuery.useQuery({
     queryKey: ["summonerData"],
@@ -77,19 +37,16 @@ export default function useFetch() {
         });
 
       if (summoner === undefined) return;
+      const league = await new LeagueApi()
+        .getLeague({
+          id: summoner.id,
+          region: "KR",
+        })
+        .catch(() => undefined);
 
       const spectator = await new SpectatorApi()
         .getSpectator({
           summonerId: summoner.id,
-          region: "KR",
-        })
-        .catch(() => {
-          return undefined;
-        });
-
-      const league = await new LeagueApi()
-        .getLeague({
-          id: summoner.id,
           region: "KR",
         })
         .catch(() => {

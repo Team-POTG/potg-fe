@@ -24,24 +24,29 @@ function Summoner() {
     fetch?.matches.refetch();
     fetch?.riot.refetch();
 
-    if (fetch)
+    if (fetch) {
+      const leagueSoloData =
+        fetch?.riot.data.league?.length === 0
+          ? undefined
+          : fetch?.riot.data.league?.filter(
+              (league) => league.queueType === "RANKED_SOLO_5x5"
+            )[0];
+
       addSummonerHistory({
         puuid: fetch.riot.data.account.puuid,
         gameName: fetch.riot.data.account.gameName,
         tagLine: fetch.riot.data.account.tagLine,
         profileIconId: fetch.riot.data.summoner.profileIconId,
         summonerLevel: fetch.riot.data.summoner.summonerLevel,
-        tier: "",
-        rank: "",
-        leaguePoint: 0,
+        tier: leagueSoloData?.tier ?? "",
+        rank: leagueSoloData?.rank ?? "",
+        leaguePoint: leagueSoloData?.leaguePoints ?? 0,
       });
+    }
   }, [location, fetch]);
 
-  useLayoutEffect(() => {}, [location]);
-
   // if (fetch?.riot) return <>로딩</>;
-  // if (fetch?.riot.data?.account.puuid === undefined)
-  // return <>알수없는 사용자입니다.</>;
+  // if (fetch?.riot.data?.account.puuid === undefined) return <></>;
   if (fetch?.isLoading) <></>;
   return (
     <div className={styles.self}>

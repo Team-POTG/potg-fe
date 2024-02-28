@@ -59,7 +59,7 @@ export function ProfileSummary(props: AutocompleteDto) {
         alt="icon"
       />
       <p className={styles.name}>{`${props.gameName}#${props.tagLine}`}</p>
-      {props.tier === undefined ? (
+      {props.tier === "" ? (
         <></>
       ) : (
         <p className={styles.rank}>
