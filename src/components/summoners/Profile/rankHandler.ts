@@ -32,7 +32,7 @@ export default class RankHandler {
       "I" = 1,
       "II",
       "III",
-      "IIII",
+      "IV",
     }
 
     this.tier = getTierToNumber[tier as keyof typeof getTierToNumber];
