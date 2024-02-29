@@ -9,7 +9,7 @@ import { css } from "@emotion/css";
 
 const styles = {
   self: css`
-    display: felx;
+    display: flex;
     flex-direction: column;
     gap: 28px;
   `,
