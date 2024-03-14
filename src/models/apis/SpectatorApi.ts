@@ -23,7 +23,7 @@ import {
 } from '../models/index';
 
 export interface GetSpectatorRequest {
-    summonerId: string;
+    puuid: string;
     region: GetSpectatorRegionEnum;
 }
 
@@ -36,8 +36,8 @@ export class SpectatorApi extends runtime.BaseAPI {
      * 
      */
     async getSpectatorRaw(requestParameters: GetSpectatorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CurrentGameInfo>> {
-        if (requestParameters.summonerId === null || requestParameters.summonerId === undefined) {
-            throw new runtime.RequiredError('summonerId','Required parameter requestParameters.summonerId was null or undefined when calling getSpectator.');
+        if (requestParameters.puuid === null || requestParameters.puuid === undefined) {
+            throw new runtime.RequiredError('puuid','Required parameter requestParameters.puuid was null or undefined when calling getSpectator.');
         }
 
         if (requestParameters.region === null || requestParameters.region === undefined) {
@@ -46,8 +46,8 @@ export class SpectatorApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.summonerId !== undefined) {
-            queryParameters['summonerId'] = requestParameters.summonerId;
+        if (requestParameters.puuid !== undefined) {
+            queryParameters['puuid'] = requestParameters.puuid;
         }
 
         if (requestParameters.region !== undefined) {
@@ -57,7 +57,7 @@ export class SpectatorApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/potg/lol/spectator/by-summoner`,
+            path: `/potg/lol/spectator/by-puuid`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './Account';
+export * from './AccountDto';
 export * from './AutocompleteDto';
 export * from './BannedChampion';
 export * from './CurrentGameInfo';
@@ -10,4 +11,5 @@ export * from './LeagueEntryDto';
 export * from './MiniSeriesDto';
 export * from './Observer';
 export * from './Perks';
+export * from './RecentDto';
 export * from './Summoner';

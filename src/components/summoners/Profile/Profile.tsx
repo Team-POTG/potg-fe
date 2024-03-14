@@ -6,14 +6,15 @@ import RecentUseChampion from "./RecentUseChampion";
 import Refetch from "./Refetch";
 import Favorite from "./Favorite";
 import { css } from "@emotion/css";
-import useFetch from "../../../hooks/useFetch";
 import Rank from "./Rank";
+import { LeagueEntryDto } from "../../../models";
 
 interface Props {
   summonerName?: string;
   profileIconId?: number;
   puuid?: string;
   level?: number;
+  league?: LeagueEntryDto[] | undefined;
 }
 
 const styles = {
@@ -31,7 +32,7 @@ const styles = {
       gap: 8px;
       background-color: white;
       width: 208px;
-      justify-items: center;
+      place-content: center;
       place-items: center;
       padding: 12px;
       border-radius: 16px;
@@ -51,8 +52,6 @@ const styles = {
 };
 
 function Profile(props: Props) {
-  const fetch = useFetch();
-
   return (
     <div className={styles.self}>
       <div className={styles.div.profile}>
@@ -61,14 +60,13 @@ function Profile(props: Props) {
           <Level level={props?.level} />
           <Name name={props?.summonerName} />
         </div>
-        <div></div>
         <div className={styles.div.function}>
           <Refetch />
           <Favorite />
         </div>
       </div>
       <div>
-        <Rank ranks={fetch?.riot.data.league} />
+        <Rank league={props.league} />
       </div>
       <div className={styles.div.recentData}>
         <RecentMatchRate />

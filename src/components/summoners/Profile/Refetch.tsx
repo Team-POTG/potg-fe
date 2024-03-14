@@ -18,7 +18,7 @@ const styles = {
 
 function Refetch() {
   const account = useRecoilValue(accountState);
-  const fetch = useFetch();
+  const { refetch } = useFetch();
 
   return (
     <button
@@ -31,8 +31,7 @@ function Refetch() {
             region: "KR",
           })
           .then(() => {
-            fetch?.riot.refetch();
-            fetch?.matches.refetch();
+            refetch();
           });
       }}
     >

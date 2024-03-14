@@ -1,7 +1,7 @@
 import React from "react";
 import { LeagueEntryDto } from "../../../models";
 import { css } from "@emotion/css";
-import RankHandler from "./rankHandler";
+import RankHandler from "../../../tools/rankHandler";
 
 const styles = {
   self: css`
@@ -44,10 +44,10 @@ const styles = {
   },
 };
 
-function Rank(props: { ranks: LeagueEntryDto[] | undefined }) {
+function Rank(props: { league: LeagueEntryDto[] | undefined }) {
   return (
     <div className={styles.self}>
-      {props.ranks?.map((rankData, index) => {
+      {props.league?.map((rankData, index) => {
         const rankHandler = new RankHandler(
           rankData.tier,
           rankData.rank,

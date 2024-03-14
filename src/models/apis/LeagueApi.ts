@@ -23,7 +23,7 @@ import {
 } from '../models/index';
 
 export interface GetLeagueRequest {
-    id: string;
+    summonerId: string;
     region: GetLeagueRegionEnum;
 }
 
@@ -36,8 +36,8 @@ export class LeagueApi extends runtime.BaseAPI {
      * 
      */
     async getLeagueRaw(requestParameters: GetLeagueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<LeagueEntryDto>>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getLeague.');
+        if (requestParameters.summonerId === null || requestParameters.summonerId === undefined) {
+            throw new runtime.RequiredError('summonerId','Required parameter requestParameters.summonerId was null or undefined when calling getLeague.');
         }
 
         if (requestParameters.region === null || requestParameters.region === undefined) {
@@ -46,6 +46,10 @@ export class LeagueApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
+        if (requestParameters.summonerId !== undefined) {
+            queryParameters['summonerId'] = requestParameters.summonerId;
+        }
+
         if (requestParameters.region !== undefined) {
             queryParameters['region'] = requestParameters.region;
         }
@@ -53,7 +57,7 @@ export class LeagueApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/potg/lol/league/by-summoner/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/potg/lol/league/by-summoner/{id}`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

@@ -28,6 +28,11 @@ export interface GetAccountByGameNameWithTagLineRequest {
     region: GetAccountByGameNameWithTagLineRegionEnum;
 }
 
+export interface GetAccountByPuuidRequest {
+    puuid: string;
+    region: GetAccountByPuuidRegionEnum;
+}
+
 /**
  * 
  */
@@ -83,6 +88,48 @@ export class AccountApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     * 
+     */
+    async getAccountByPuuidRaw(requestParameters: GetAccountByPuuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Account>> {
+        if (requestParameters.puuid === null || requestParameters.puuid === undefined) {
+            throw new runtime.RequiredError('puuid','Required parameter requestParameters.puuid was null or undefined when calling getAccountByPuuid.');
+        }
+
+        if (requestParameters.region === null || requestParameters.region === undefined) {
+            throw new runtime.RequiredError('region','Required parameter requestParameters.region was null or undefined when calling getAccountByPuuid.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.puuid !== undefined) {
+            queryParameters['puuid'] = requestParameters.puuid;
+        }
+
+        if (requestParameters.region !== undefined) {
+            queryParameters['region'] = requestParameters.region;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/potg/common/accounts/by-puuid`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AccountFromJSON(jsonValue));
+    }
+
+    /**
+     * 
+     */
+    async getAccountByPuuid(requestParameters: GetAccountByPuuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Account> {
+        const response = await this.getAccountByPuuidRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
 }
 
 /**
@@ -107,3 +154,25 @@ export const GetAccountByGameNameWithTagLineRegionEnum = {
     Vn2: 'VN2'
 } as const;
 export type GetAccountByGameNameWithTagLineRegionEnum = typeof GetAccountByGameNameWithTagLineRegionEnum[keyof typeof GetAccountByGameNameWithTagLineRegionEnum];
+/**
+ * @export
+ */
+export const GetAccountByPuuidRegionEnum = {
+    Br1: 'BR1',
+    Eun1: 'EUN1',
+    Euw1: 'EUW1',
+    Jp1: 'JP1',
+    Kr: 'KR',
+    La1: 'LA1',
+    La2: 'LA2',
+    Na1: 'NA1',
+    Oc1: 'OC1',
+    Ph2: 'PH2',
+    Ru: 'RU',
+    Sg2: 'SG2',
+    Th2: 'TH2',
+    Tr1: 'TR1',
+    Tw2: 'TW2',
+    Vn2: 'VN2'
+} as const;
+export type GetAccountByPuuidRegionEnum = typeof GetAccountByPuuidRegionEnum[keyof typeof GetAccountByPuuidRegionEnum];

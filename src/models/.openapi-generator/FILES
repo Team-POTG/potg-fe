@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AccountApi.ts
 apis/AutocompleteApi.ts
 apis/LeagueApi.ts
@@ -9,6 +8,7 @@ apis/SummonerApi.ts
 apis/index.ts
 index.ts
 models/Account.ts
+models/AccountDto.ts
 models/AutocompleteDto.ts
 models/BannedChampion.ts
 models/CurrentGameInfo.ts
@@ -18,6 +18,7 @@ models/LeagueEntryDto.ts
 models/MiniSeriesDto.ts
 models/Observer.ts
 models/Perks.ts
+models/RecentDto.ts
 models/Summoner.ts
 models/index.ts
 runtime.ts

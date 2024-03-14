@@ -46,6 +46,47 @@ paths:
                 $ref: "#/components/schemas/Account"
       tags:
         - Account
+  /potg/common/accounts/by-puuid:
+    get:
+      operationId: getAccountByPuuid
+      summary: ""
+      parameters:
+        - name: puuid
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: region
+          required: true
+          in: query
+          schema:
+            enum:
+              - BR1
+              - EUN1
+              - EUW1
+              - JP1
+              - KR
+              - LA1
+              - LA2
+              - NA1
+              - OC1
+              - PH2
+              - RU
+              - SG2
+              - TH2
+              - TR1
+              - TW2
+              - VN2
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+      tags:
+        - Account
   /potg/lol/request/by-puuid:
     post:
       operationId: requestByPuuid
@@ -130,9 +171,9 @@ paths:
       operationId: getLeague
       summary: ""
       parameters:
-        - name: id
+        - name: summonerId
           required: true
-          in: path
+          in: query
           schema:
             type: string
         - name: region
@@ -239,12 +280,12 @@ paths:
           description: ""
       tags:
         - Match
-  /potg/lol/spectator/by-summoner:
+  /potg/lol/spectator/by-puuid:
     get:
       operationId: getSpectator
       summary: ""
       parameters:
-        - name: summonerId
+        - name: puuid
           required: true
           in: query
           schema:
@@ -455,6 +496,16 @@ components:
         - perkIds
         - perkStyle
         - perkSubStyle
+    AccountDto:
+      type: object
+      properties:
+        tagLine:
+          type: string
+        gameName:
+          type: string
+      required:
+        - tagLine
+        - gameName
     GameCustomizationObject:
       type: object
       properties:
@@ -465,6 +516,31 @@ components:
       required:
         - category
         - content
+    RecentDto:
+      type: object
+      properties:
+        date:
+          type: number
+        championId:
+          type: number
+        championName:
+          type: string
+        kills:
+          type: number
+        deaths:
+          type: number
+        assists:
+          type: number
+        isWin:
+          type: boolean
+      required:
+        - date
+        - championId
+        - championName
+        - kills
+        - deaths
+        - assists
+        - isWin
     CurrentGameParticipant:
       type: object
       properties:
@@ -478,8 +554,8 @@ components:
           type: boolean
         teamId:
           type: number
-        summonerName:
-          type: string
+        account:
+          $ref: "#/components/schemas/AccountDto"
         summonerId:
           type: string
         puuid:
@@ -492,18 +568,28 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/GameCustomizationObject"
+        leagues:
+          type: array
+          items:
+            $ref: "#/components/schemas/LeagueEntryDto"
+        recentMatches:
+          type: array
+          items:
+            $ref: "#/components/schemas/RecentDto"
       required:
         - championId
         - perks
         - profileIconId
         - bot
         - teamId
-        - summonerName
+        - account
         - summonerId
         - puuid
         - spell1Id
         - spell2Id
         - gameCustomizationObjects
+        - leagues
+        - recentMatches
     CurrentGameInfo:
       type: object
       properties:

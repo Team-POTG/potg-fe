@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { Chart, DoughnutController, ArcElement } from "chart.js/auto";
+import React from "react";
+import { Chart, ArcElement } from "chart.js/auto";
 
 function RecentMatchRate() {
   Chart.register(ArcElement);
-  // useEffect(() => {}, []);
   const data = {
     datasets: [
       {

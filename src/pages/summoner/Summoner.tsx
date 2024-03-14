@@ -17,51 +17,54 @@ const styles = {
 
 function Summoner() {
   const location = useLocation();
-  const fetch = useFetch();
+  const { fetch, refetch, isLoading } = useFetch();
   const { addSummonerHistory } = useSummonerHistory();
 
   useEffect(() => {
-    fetch?.matches.refetch();
-    fetch?.riot.refetch();
+    refetch();
 
     if (fetch) {
       const leagueSoloData =
-        fetch?.riot.data.league?.length === 0
+        fetch.riot?.league?.length === 0
           ? undefined
-          : fetch?.riot.data.league?.filter(
+          : fetch?.riot?.league?.filter(
               (league) => league.queueType === "RANKED_SOLO_5x5"
             )[0];
 
-      addSummonerHistory({
-        puuid: fetch.riot.data.account.puuid,
-        gameName: fetch.riot.data.account.gameName,
-        tagLine: fetch.riot.data.account.tagLine,
-        profileIconId: fetch.riot.data.summoner.profileIconId,
-        summonerLevel: fetch.riot.data.summoner.summonerLevel,
-        tier: leagueSoloData?.tier ?? "",
-        rank: leagueSoloData?.rank ?? "",
-        leaguePoint: leagueSoloData?.leaguePoints ?? 0,
-      });
+      if (fetch.riot)
+        addSummonerHistory({
+          puuid: fetch.riot.account.puuid,
+          gameName: fetch.riot.account.gameName,
+          tagLine: fetch.riot.account.tagLine,
+          profileIconId: fetch.riot.summoner.profileIconId,
+          summonerLevel: fetch.riot.summoner.summonerLevel,
+          tier: leagueSoloData?.tier ?? "",
+          rank: leagueSoloData?.rank ?? "",
+          leaguePoint: leagueSoloData?.leaguePoints ?? 0,
+        });
     }
+
+    return;
   }, [location, fetch]);
 
   // if (fetch?.riot) return <>로딩</>;
   // if (fetch?.riot.data?.account.puuid === undefined) return <></>;
-  if (fetch?.isLoading) <></>;
+  // if (isLoading) <></>;
   return (
     <div className={styles.self}>
       <Profile
-        summonerName={fetch?.riot?.data.account.gameName}
-        profileIconId={fetch?.riot?.data.summoner.profileIconId}
-        puuid={fetch?.riot?.data.summoner.puuid}
-        level={fetch?.riot?.data.summoner.summonerLevel}
+        summonerName={fetch?.riot?.account.gameName}
+        profileIconId={fetch?.riot?.summoner.profileIconId}
+        puuid={fetch?.riot?.summoner.puuid}
+        level={fetch?.riot?.summoner.summonerLevel}
+        league={fetch?.riot.league}
       />
-      {fetch?.riot?.data.spectator === undefined ? (
+      {fetch?.riot?.spectator === undefined ? (
         <></>
       ) : (
-        <CurrentGame spectator={fetch?.riot.data.spectator} />
+        <CurrentGame spectator={fetch?.riot.spectator} />
       )}
-      <Matches matches={fetch?.matches.data} />
+      <Matches matches={fetch?.matches} />
     </div>
   );
 }

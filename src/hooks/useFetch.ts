@@ -39,14 +39,14 @@ export default function useFetch() {
       if (summoner === undefined) return;
       const league = await new LeagueApi()
         .getLeague({
-          id: summoner.id,
+          summonerId: summoner.id,
           region: "KR",
         })
         .catch(() => undefined);
 
       const spectator = await new SpectatorApi()
         .getSpectator({
-          summonerId: summoner.id,
+          puuid: account.puuid,
           region: "KR",
         })
         .catch(() => {
@@ -119,8 +119,8 @@ export default function useFetch() {
     }`);
 
   const fetch = useMemo(() => {
-    if (riot.isLoading || riot.error || matches.error || matches.loading)
-      return;
+    // if (riot.isLoading || riot.error || matches.error || matches.loading)
+    //   return;
     if (riot.data === undefined) return;
     setAccount({
       puuid: riot.data.account.puuid,
@@ -130,17 +130,19 @@ export default function useFetch() {
     });
 
     return {
-      riot: {
-        data: riot.data,
-        refetch: () => riot.refetch(),
-      },
-      matches: {
-        data: matches.data?.getMatch,
-        refetch: () => matches.refetch(),
-      },
-      isLoading: riot.isLoading || matches.loading,
+      riot: riot.data,
+      matches: matches.data?.getMatch,
     };
-  }, [riot.data, matches.data, location]);
+  }, [matches.data?.getMatch, riot.data, setAccount]);
 
-  return fetch;
+  const isLoading = useMemo(() => {
+    return riot.isLoading || matches.loading;
+  }, [matches.loading, riot.isLoading]);
+
+  const refetch = () => {
+    riot.refetch();
+    matches.refetch();
+  };
+
+  return { fetch, refetch, isLoading };
 }
