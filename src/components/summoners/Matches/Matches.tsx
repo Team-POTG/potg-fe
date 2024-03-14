@@ -1,19 +1,14 @@
 import GameTypeCategory from "./GameTypeCategory";
 import Analytic from "./Analytic";
-import { gql, useQuery } from "@apollo/client";
 import { MatchDto } from "../../../gql/graphql";
 import Match from "./Match";
-import { useRecoilValue } from "recoil";
-import { accountState } from "../../../recoil/navigate/atom";
-import useFetch from "../../../hooks/useFetch";
-import { useEffect, useState } from "react";
 
 interface Props {
   matches: MatchDto[] | undefined;
 }
 
 function Matches(props: Props) {
-  const fetch = useFetch();
+  // const fetch = useFetch();
 
   return (
     <div className="flex flex-col gap-5 text-slate-600">
@@ -22,10 +17,10 @@ function Matches(props: Props) {
         <p className="text-orange-500">20게임</p>
         <p>전적</p>
       </div>
-      <GameTypeCategory />
-      <Analytic />
+      {/* <GameTypeCategory /> */}
+      {/* <Analytic /> */}
       <div className="flex flex-col gap-2">
-        {fetch?.matches.data
+        {props.matches
           ?.slice()
           .sort(
             (prevMatch, currentMatch) =>

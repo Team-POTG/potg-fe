@@ -1,13 +1,13 @@
-import Challenger from "../../../images/emblems/Challenger.png";
-import GrandMaster from "../../../images/emblems/Grandmaster.png";
-import Master from "../../../images/emblems/Master.png";
-import Diamond from "../../../images/emblems/Diamond.png";
-import Emerald from "../../../images/emblems/Platinum.png";
-import Platinum from "../../../images/emblems/Platinum.png";
-import Gold from "../../../images/emblems/Gold.png";
-import Silver from "../../../images/emblems/Silver.png";
-import Bronze from "../../../images/emblems/Bronze.png";
-import Iron from "../../../images/emblems/Iron.png";
+import Challenger from "../images/emblems/Challenger.png";
+import GrandMaster from "../images/emblems/Grandmaster.png";
+import Master from "../images/emblems/Master.png";
+import Diamond from "../images/emblems/Diamond.png";
+import Emerald from "../images/emblems/Platinum.png";
+import Platinum from "../images/emblems/Platinum.png";
+import Gold from "../images/emblems/Gold.png";
+import Silver from "../images/emblems/Silver.png";
+import Bronze from "../images/emblems/Bronze.png";
+import Iron from "../images/emblems/Iron.png";
 
 export default class RankHandler {
   private tier: number;
