@@ -8,6 +8,7 @@ import { accountState } from "../../../recoil/navigate/atom";
 import { CurrentGameParticipant } from "../../../models";
 import RankHandler from "../../../tools/rankHandler";
 import { useNavigate } from "react-router-dom";
+import PlayedChampionInfo from "../PlayedChampionInfo";
 
 const styles = {
   self: css`
@@ -67,11 +68,6 @@ const styles = {
 };
 
 function CurrentGameSummonerProfile(props: CurrentGameParticipant) {
-  const test = {
-    perk: [0, 0],
-    spell: [0, 0],
-  };
-
   const { puuid } = useRecoilValue(accountState);
   const navigate = useNavigate();
 
@@ -93,53 +89,16 @@ function CurrentGameSummonerProfile(props: CurrentGameParticipant) {
         `
       )}
     >
-      <div className={styles.championInfo.self}>
-        <RoundedImage
-          image={`http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/Aatrox.png`}
-          radius={10}
-          width={40}
-          height={40}
-          innerImageScale={1.2}
-        />
-        <div className={styles.championInfo.playStyleCover.self}>
-          <div className={styles.championInfo.playStyleCover.perk}>
-            {test.perk.map((value, index) => (
-              <RoundedImage
-                key={index}
-                image={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/spell/SummonerFlash.png`}
-                radius={5}
-                width={17}
-                height={17}
-              />
-            ))}
-          </div>
-          <div className={styles.championInfo.playStyleCover.spell}>
-            {test.spell.map((value, index) => (
-              <RoundedImage
-                key={index}
-                image={`https://ddragon.leagueoflegends.com/cdn/14.3.1/img/spell/SummonerFlash.png`}
-                radius={3}
-                width={17}
-                height={17}
-              />
-            ))}
-          </div>
-        </div>
-        <div className={styles.summonerInfo.self}>
-          <div
-            className={styles.summonerInfo.name}
-            onClick={() => {
-              navigate(`/${props.account.gameName}#${props.account.tagLine}`);
-            }}
-          >
-            {props.account.gameName}
-          </div>
-          <div className={styles.summonerInfo.rank}>
-            {`${leagueHandler.getTierName()} ${leagueHandler.getRank()}
-            ${leagueHandler.getLeaguePoint()}LP`}
-          </div>
-        </div>
-      </div>
+      {/* <div className={styles.championInfo.self}> */}
+      <PlayedChampionInfo
+        championId={0}
+        championName={""}
+        tagLine={props.account.tagLine}
+        gameName={props.account.gameName}
+        leagues={props.leagues}
+        summonerLevel={0}
+      />
+      {/* </div> */}
 
       <MatchHistory recentMatch={props.recentMatches} />
       <CurrentGameBannedChampion />

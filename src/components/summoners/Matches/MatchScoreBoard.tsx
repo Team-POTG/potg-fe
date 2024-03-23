@@ -2,24 +2,20 @@ import React, { useContext } from "react";
 import { ParticipantDto } from "../../../gql/graphql";
 import { ParticipantsContext } from "./Match";
 import useRankedScoreToggle from "../../../hooks/useRankedScoreToggle";
+import {
+  getKdaEngage,
+  getKdaRatio,
+  getTotalMinionKilledScore,
+  getTotalVisionScore,
+} from "../../../tools/matchScore";
 
 function MatchScoreBoard(props: {
   participant: ParticipantDto;
-  teamTotalKills: number | undefined;
+  teamTotalKills: number;
   gameDuration: number;
 }) {
   const participants = useContext(ParticipantsContext);
   const [isRankedScore, setRankedScoreToggle] = useRankedScoreToggle();
-
-  const killAverage =
-    (props.participant?.kills + props.participant?.assists) /
-    props.participant?.deaths;
-
-  const killEngage = Math.round(
-    ((props.participant.kills + props.participant.assists) /
-      props.teamTotalKills!) *
-      100
-  );
 
   const scoreRank = {
     kills:
@@ -123,12 +119,16 @@ function MatchScoreBoard(props: {
                   }
                   score={
                     props.participant.individualPosition === "UTILITY"
-                      ? props.participant.wardsPlaced +
-                        props.participant.detectorWardsPlaced +
-                        props.participant.wardsKilled +
-                        props.participant.visionScore
-                      : props.participant.totalMinionsKilled +
-                        props.participant.neutralMinionsKilled
+                      ? getTotalVisionScore(
+                          props.participant.wardsPlaced,
+                          props.participant.detectorWardsPlaced,
+                          props.participant.wardsKilled,
+                          props.participant.visionScore
+                        )
+                      : getTotalMinionKilledScore(
+                          props.participant.totalMinionsKilled,
+                          props.participant.neutralMinionsKilled
+                        )
                   }
                   isRanked={isRankedScore}
                 />
@@ -138,14 +138,16 @@ function MatchScoreBoard(props: {
           <tr className="text-xs">
             <td colSpan={3}>
               <div className="flex gap-3 justify-center">
-                <div>{`평점 ${
-                  isNaN(killAverage)
-                    ? 0
-                    : isFinite(killAverage)
-                    ? killAverage.toFixed(2)
-                    : "Perfect"
-                }`}</div>
-                <div>{`킬관여 ${isNaN(killEngage) ? 0 : killEngage}%`}</div>
+                <div>{`평점 ${getKdaRatio(
+                  props.participant.kills,
+                  props.participant.deaths,
+                  props.participant.assists
+                )}`}</div>
+                <div>{`킬관여 ${getKdaEngage(
+                  props.participant.kills,
+                  props.participant.assists,
+                  props.teamTotalKills
+                )}%`}</div>
               </div>
             </td>
             <td>

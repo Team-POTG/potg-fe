@@ -3,10 +3,15 @@ import React from "react";
 
 interface Props {
   name?: string;
+
   image: string;
+  backgroundColor?: string;
+
   radius: number;
+
   width: number;
   height: number;
+
   innerImageScale?: number;
 }
 
@@ -17,6 +22,7 @@ function RoundedImage(props: Props) {
       height: ${props.height}px;
       border-radius: ${props.radius}px;
       overflow: hidden;
+      background-color: ${props.backgroundColor};
     `,
     innerImage: css`
       transform: scale(${props.innerImageScale});

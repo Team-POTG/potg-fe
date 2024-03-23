@@ -1,5 +1,4 @@
 import GameTypeCategory from "./GameTypeCategory";
-import Analytic from "./Analytic";
 import { MatchDto } from "../../../gql/graphql";
 import Match from "./Match";
 

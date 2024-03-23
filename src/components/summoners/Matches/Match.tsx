@@ -1,18 +1,33 @@
 import { useRecoilValue } from "recoil";
 import { accountState } from "../../../recoil/navigate/atom";
-import MatchChampionIcon from "./MatchChampionIcon";
 import MatchScoreBoard from "./MatchScoreBoard";
 import MatchSummonerList from "./MatchSummonerList";
 import { MatchDto, ParticipantDto } from "../../../gql/graphql";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import MatchGameInfo from "./MatchGameInfo";
-import MatchSpell from "./MatchSpell";
-import MatchItemList from "./MatchItemList";
+import MatchDetailButton from "./MatchDetailButton";
+import { css } from "@emotion/css";
+import MatchDetail from "./MatchDetail";
+import GameItemInventory from "./GameItemInventory";
+import PlayedChampionInfo from "../PlayedChampionInfo";
 
 export const ParticipantsContext = createContext<ParticipantDto[]>([]);
 
+const styles = {
+  matchDetail: {
+    self: css`
+      /* background-color: rgb(244, 244, 244); */
+      display: flex;
+      flex-direction: column;
+      margin: 2px 4px 2px 4px;
+    `,
+  },
+};
+
 function Match(props: { match: MatchDto; index: number }) {
+  const [detailToggle, setDetailToggle] = useState(false);
   const account = useRecoilValue(accountState);
+
   const navigatedSummonerParticipant = props.match.info.participants.filter(
     (summoenr) => summoenr.puuid === account.puuid
   )[0];
@@ -33,15 +48,14 @@ function Match(props: { match: MatchDto; index: number }) {
             isWin={navigatedSummonerParticipant.win}
           />
           <div className="flex gap-2">
-            <MatchChampionIcon
+            <PlayedChampionInfo
+              championId={navigatedSummonerParticipant.championId}
               championName={navigatedSummonerParticipant.championName}
+              championIcon={{ size: 68 }}
+              playStyleIcon={{ size: 28, gap: 5, borderRadius: 5 }}
             />
-            <MatchSpell
-              summoner1Id={navigatedSummonerParticipant.summoner1Id}
-              summoner2Id={navigatedSummonerParticipant.summoner2Id}
-            />
-            <MatchItemList
-              items={{
+            <GameItemInventory
+              inventory={{
                 item0: navigatedSummonerParticipant.item0,
                 item1: navigatedSummonerParticipant.item1,
                 item2: navigatedSummonerParticipant.item2,
@@ -50,6 +64,7 @@ function Match(props: { match: MatchDto; index: number }) {
                 item5: navigatedSummonerParticipant.item5,
                 item6: navigatedSummonerParticipant.item6,
               }}
+              alignType={"inGameInventoryStyle"}
             />
           </div>
           <MatchScoreBoard
@@ -58,11 +73,18 @@ function Match(props: { match: MatchDto; index: number }) {
               props.match.info.teams.find(
                 (teamId) =>
                   teamId.teamId === navigatedSummonerParticipant.teamId
-              )?.objectives.champion.kills
+              )!.objectives.champion.kills
             }
             gameDuration={props.match.info.gameDuration}
           />
           <MatchSummonerList />
+        </div>
+        <div className={styles.matchDetail.self}>
+          <MatchDetailButton
+            isWin={navigatedSummonerParticipant.win}
+            onClick={() => setDetailToggle(!detailToggle)}
+          />
+          {detailToggle ? <MatchDetail {...props.match} /> : <></>}
         </div>
       </div>
     </ParticipantsContext.Provider>

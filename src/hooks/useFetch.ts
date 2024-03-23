@@ -91,6 +91,7 @@ export default function useFetch() {
             puuid
             championName
             championId
+            champLevel
             summonerName
             riotIdGameName
             riotIdTagline

@@ -2,7 +2,7 @@ import React from "react";
 // import { nameState } from "../../../../../../reducers/profile";
 // import { useAppSelector } from "../../../../../../store/hook";
 
-function Analytic() {
+function MatchesAnalytic() {
   // const match = useAppSelector((state) => state.match.value);
 
   return (
@@ -28,4 +28,4 @@ function Analytic() {
   );
 }
 
-export default Analytic;
+export default MatchesAnalytic;

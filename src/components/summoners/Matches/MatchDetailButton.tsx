@@ -1,15 +1,34 @@
+import { css, cx } from "@emotion/css";
 import React from "react";
 
-function Detail(props: { isWin: boolean | undefined }) {
+function MatchDetailButton(props: {
+  isWin: boolean | undefined;
+  onClick?: () => void;
+}) {
+  const styles = {
+    self: css`
+      font-size: 12px;
+      justify-content: center;
+      border-radius: 6px;
+      padding: 2px;
+    `,
+  };
+
   return (
-    <div
-      className={`flex text-xs mb-2 mt-1 mx-2 justify-center p-1 rounded-md ${
-        props.isWin ? "bg-blue-300" : "bg-red-300"
-      }`}
+    <button
+      className={cx(
+        styles.self,
+        css`
+          ${props.isWin
+            ? `background-color:rgb(147 197 253);`
+            : `background-color:rgb(252 165 165);`}
+        `
+      )}
+      onClick={props.onClick}
     >
       자세히
-    </div>
+    </button>
   );
 }
 
-export default Detail;
+export default MatchDetailButton;
