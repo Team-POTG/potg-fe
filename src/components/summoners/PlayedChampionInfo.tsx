@@ -147,8 +147,8 @@ function PlayedChampionInfo(props: Props) {
             {props.gameName}
           </div>
           <div className={styles.summonerInfo.rank}>
-            {`${leagueHandler.getTierName()} ${leagueHandler.getRank()} */}
-            {/* ${leagueHandler.getLeaguePoint()}LP`}
+            {`${leagueHandler.getTierName()} ${leagueHandler.getRank()}
+            ${leagueHandler.getLeaguePoint()}LP`}
           </div>
         </div>
       ) : (

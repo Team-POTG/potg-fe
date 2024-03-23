@@ -1,4 +1,3 @@
-export const SERVER_HOST = "https://localhost:5001/";
 const CDN_HOST = "http://ddragon.leagueoflegends.com/cdn/14.2.1";
 
 export const SUMMONER_IMAGE_CDN = `${CDN_HOST}/img/profileicon/`;
