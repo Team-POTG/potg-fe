@@ -2,12 +2,23 @@
 
 > 위 프로젝트를 실행하기 위해서는 [potg-be](https://github.com/Team-POTG/potg-be)와 실행하여야 합니다.
 
-### 1. 실행
+## 1. Run
 
-```
-1. npm install
-2. npm run start
-```
+### 1-1. Installed NodeJS on Machine
+
+1. [NodeJS](https://nodejs.org/en) 설치
+2. terminal 실행
+3. `npm install` 입력
+4. `npm run start` 입력
+
+### 1-2. Installed Docker on Machine
+
+1. [Docker](https://www.docker.com) 설치
+2. terminal 실행
+3. `docker build -t potg-fe .` 입력
+4. 빌드가 끝나면 `docker run -p 3000:3000 potg-fe` 입력
+
+### 1-2. Installed Docker on Machine
 
 ### 2. 실행화면
 
